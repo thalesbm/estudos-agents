@@ -24,8 +24,14 @@ ffprobe
 python-dotenv
 sentence-transformers==2.7.0
 langchain-chroma
-# faiss-cpu # pip3 install --no-binary :all: faiss-cpu
+chromadb
 lark
+langchainhub==0.1.15
+pydantic
+wikipedia
+stackapi
+tabulate
+arxiv
 
 # python3 -m venv .venv
 # source .venv/bin/activate

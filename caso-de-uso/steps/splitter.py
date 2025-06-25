@@ -3,7 +3,7 @@ from langchain_core.documents import Document
 
 from typing import List
 
-def splitDocument(document: List[Document]):
+def splitDocument(document: List[Document]) -> List[Document]:
     print("Iniciando split do documento...")
 
     text_splitter = RecursiveCharacterTextSplitter(
@@ -14,6 +14,6 @@ def splitDocument(document: List[Document]):
 
     chunks = text_splitter.split_documents(document)
 
-    print("... finalizando split do documento")
+    print("... finalizando split do documento \n")
 
     return chunks

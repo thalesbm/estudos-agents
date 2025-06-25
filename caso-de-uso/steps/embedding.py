@@ -4,7 +4,7 @@ from langchain_community.vectorstores.chroma import Chroma
 
 from typing import List
 
-def embeddingDocument(chunks: List[Document]):
+def embeddingDocument(chunks: List[Document]) -> Chroma:
     print("Inicializando embedding do documento...")
 
     embeddings = OpenAIEmbeddings()
@@ -14,6 +14,6 @@ def embeddingDocument(chunks: List[Document]):
         embedding=embeddings
     )
 
-    print("... finalizando embedding do documento")
+    print("... finalizando embedding do documento \n")
 
     return vector_store

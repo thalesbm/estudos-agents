@@ -1,7 +1,7 @@
 import openai
 from colorama import Fore, Style, init
 
-client = openai.Client(api_key = "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")
+client = openai.Client(api_key = "")
 
 init(autoreset=True)
 

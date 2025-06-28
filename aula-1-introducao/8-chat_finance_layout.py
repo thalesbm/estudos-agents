@@ -4,7 +4,7 @@ import json
 # import pandas as pd
 import streamlit as st
 
-client = openai.Client(api_key = "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")
+client = openai.Client(api_key = "")
 
 def retorna_cotacao(ticker, periodo="1mo"):
     ticker_obj = yf.Ticker(ticker)

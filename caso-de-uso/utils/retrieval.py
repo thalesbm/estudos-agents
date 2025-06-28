@@ -14,7 +14,7 @@ def findSimilarity(question: str, vector_store: Chroma) -> List[Answer]:
     for doc in docs:
         answers.append(Answer(content=doc.page_content, metadata=doc.metadata))
 
-        print(doc.content)
+        print(doc.page_content)
         print(doc.metadata)
         print("\n")
 

@@ -4,10 +4,10 @@ from langchain_community.vectorstores.chroma import Chroma
 
 from typing import List
 
-def embeddingDocument(chunks: List[Document]) -> Chroma:
+def embeddingDocument(chunks: List[Document], apiKey: str) -> Chroma:
     print("Inicializando embedding do documento...")
 
-    embeddings = OpenAIEmbeddings()
+    embeddings = OpenAIEmbeddings(openai_api_key=apiKey)
 
     vector_store = Chroma.from_documents(
         documents=chunks,

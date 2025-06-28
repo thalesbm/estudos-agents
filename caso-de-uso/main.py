@@ -21,7 +21,7 @@ def init():
     question = "o que é LLM?"
     answers = findSimilarity(question=question, vector_store=vector_store)
 
-    connectToOpenAI(question)
+    connectToOpenAI(question, apiKey=apiKey, vector_store=vector_store)
 
 if __name__ == "__main__":
     init()

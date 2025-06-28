@@ -1,20 +1,34 @@
 from langchain_openai.chat_models import ChatOpenAI
-from langchain.chains.retrieval_qa.base import RetrievalQA
-from langchain_community.vectorstores.chroma import Chroma
+from langchain.schema import HumanMessage, SystemMessage
 
-def connectToOpenAI(question: str, apiKey: str, vector_store: Chroma):
+from typing import List
+from model.answer import Answer
+
+def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
     print("Iniciando conexão com a open AI do documento...")
 
     chat = ChatOpenAI(model="gpt-4o-mini")
 
-    vector = vector_store.as_retriever(search_type='mmr')
+    prompt = getPrompt(question=question, answers=answers)
+    
+    response = chat.invoke(prompt)
 
-    chat_chain = RetrievalQA.from_chain_type(
-        llm=chat,
-        retriever=vector,
-    )
-
-    resposta = chat_chain.invoke({'query': question})
-    print(resposta['result'])
+    print(response.content)
 
     print("... finalizando conexão com a open AI do documento")
+
+def getPrompt(question: str, answers: List[Answer]):
+    context = ""
+    for ans in answers:
+        context += ans.content + "\n---\n"
+
+    prompt = [
+        SystemMessage(
+            content="Você é um assistente que responde com base APENAS no contexto abaixo com tom de ironia"
+        ),
+        HumanMessage(
+            content=f"Contexto:\n{context}\n\nPergunta: {question}\nResponda de forma clara e cite a fonte se possível."
+        )
+    ]
+
+    return prompt

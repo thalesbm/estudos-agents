@@ -6,7 +6,6 @@ from utils.openai import getOpenAIKey
 
 from service.chat import connectToOpenAI
 
-from openai import OpenAI
 def init():
     print("bem vindo ao melhor programa do mundo")
 
@@ -21,7 +20,7 @@ def init():
     question = "o que é LLM?"
     answers = findSimilarity(question=question, vector_store=vector_store)
 
-    connectToOpenAI(question, apiKey=apiKey, vector_store=vector_store)
+    connectToOpenAI(question, apiKey=apiKey, answers=answers)
 
 if __name__ == "__main__":
     init()

@@ -15,6 +15,13 @@ def replaceString(context: str, antigo: str, novo: str) -> str:
     """
     return context.replace(antigo, novo)
 
+def getContext(answers: List[Answer]):
+    context = ""
+    for ans in answers:
+        context += ans.content + "\n---\n"
+
+    return context
+
 def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
     print("Iniciando conexão com a open AI...")
 
@@ -41,13 +48,6 @@ def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
         print(result.content)
 
     print("... finalizando conexão com a open AI")
-
-def getContext(answers: List[Answer]):
-    context = ""
-    for ans in answers:
-        context += ans.content + "\n---\n"
-
-    return context
 
 def getPrompt():
     prompt = ChatPromptTemplate.from_messages([

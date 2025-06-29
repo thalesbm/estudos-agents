@@ -4,7 +4,8 @@ from utils.embedding import embeddingDocument
 from utils.retrieval import findSimilarity
 from utils.openai import getOpenAIKey
 
-from service.chat import connectToOpenAI
+# from service.chat import connectToOpenAI
+from service.chat2 import connectToOpenAI
 
 def init():
     print("bem vindo ao melhor programa do mundo")

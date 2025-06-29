@@ -5,7 +5,7 @@ from typing import List
 from model.answer import Answer
 
 def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
-    print("Iniciando conexão com a open AI do documento...")
+    print("Iniciando conexão com a open AI do documento...\n")
 
     chat = ChatOpenAI(model="gpt-4o-mini")
 
@@ -15,7 +15,7 @@ def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
 
     print(response.content)
 
-    print("... finalizando conexão com a open AI do documento")
+    print("\n... finalizando conexão com a open AI do documento")
 
 def getPrompt(question: str, answers: List[Answer]):
     context = ""

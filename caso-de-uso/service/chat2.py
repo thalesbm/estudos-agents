@@ -53,16 +53,11 @@ def getPrompt():
     prompt = ChatPromptTemplate.from_messages([
         (
             "system",
-            "Responda apenas usando a função replaceString para substituir 'LLM' por 'Large (HUGE) Language Model'."
-            "Você é um assistente que SEMPRE usa a função replaceString "
             "Você é um assistente que responde com base APENAS no contexto abaixo com tom de ironia"
-            "quando o usuário pede para substituir palavras em um texto. "
-            "Responda apenas usando function calling."
-            "Pergunta: {context}\nResponda com esse contexto."
         ),
         (
             "human",
-            "Pergunta: {query}\nResponda de forma clara e cite a fonte se possível."
+            "Pergunta: Responda de forma clara e cite a fonte se possível."
         )
     ])
 

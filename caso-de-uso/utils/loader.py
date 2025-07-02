@@ -6,7 +6,7 @@ from typing import List
 def loadDocument() -> List[Document]:
     print("Iniciando carregando do documento...")
 
-    file = "files/LLM.pdf"
+    file = "files/tcc.pdf"
     loader = PyPDFLoader(file)
     document = loader.load()
 

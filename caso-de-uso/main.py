@@ -18,7 +18,7 @@ def init():
 
     vector_store = embeddingDocument(chunks=chunks, apiKey=apiKey)
 
-    question = "o que é LLM?"
+    question = "qual foi o aplivativo escolhido para o projeto?"
     answers = findSimilarity(question=question, vector_store=vector_store)
 
     # simpleConnectionToOpenAI(question, apiKey=apiKey, answers=answers)

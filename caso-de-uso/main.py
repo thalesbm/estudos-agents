@@ -4,7 +4,7 @@ from utils.embedding import embeddingDocument
 from utils.retrieval import findSimilarity
 from utils.openai import getOpenAIKey
 
-# from service.chat import connectToOpenAI
+from service.chat import simpleConnectionToOpenAI
 from service.chat2 import connectToOpenAI
 
 def init():
@@ -20,6 +20,8 @@ def init():
 
     question = "o que é LLM?"
     answers = findSimilarity(question=question, vector_store=vector_store)
+
+    # simpleConnectionToOpenAI(question, apiKey=apiKey, answers=answers)
 
     connectToOpenAI(question, apiKey=apiKey, answers=answers)
 

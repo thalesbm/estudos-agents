@@ -4,7 +4,7 @@ from utils.embedding import embeddingDocument
 from utils.retrieval import findSimilarity
 from utils.openai import getOpenAIKey
 
-from service.chat import simpleConnectionToOpenAI
+from service.simpleConnection import simpleConnectionToOpenAI
 from service.chat2 import connectToOpenAI
 
 def init():

@@ -18,19 +18,20 @@ def init():
     logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
     logger = logging.getLogger(__name__)
 
-    logger.info("bem vindo ao melhor programa do mundo")
+    logger.info("Bem vindo ao melhor programa do mundo")
 
     question = "qual foi o aplicativo escolhido para o projeto?"
 
     apiKey = getOpenAIKey()
 
     # load document
-    runnable1 = RunnableLambda(loadDocument)
-    document = runnable1.invoke(None)
+    document = RunnableLambda(loadDocument)
+    
+    # split documents
+    chunks = RunnableLambda(splitDocument)
 
-    # split document
-    runnable2 = RunnableLambda(splitDocument)
-    chunks = runnable2.invoke(document)
+    pipeline = document | chunks
+    chunks = pipeline.invoke(None)
 
     vector_store = embeddingDocument(
         chunks=chunks, 

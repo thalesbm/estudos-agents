@@ -10,7 +10,7 @@ from model.type import ConnectionType
 def init():
     print("bem vindo ao melhor programa do mundo")
 
-    question = "qual foi o aplivativo escolhido para o projeto?"
+    question = "qual foi o aplicativo escolhido para o projeto?"
 
     apiKey = getOpenAIKey()
 

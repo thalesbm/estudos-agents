@@ -32,7 +32,7 @@ def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
         "valor": valor
     })
 
-    print(follow_up_result.content)
+    print(f"\nResultado: {follow_up_result.content}\n")
 
     print("... finalizando conexão com a open AI")
 
@@ -63,11 +63,16 @@ def getSaidaPrompt() -> str:
     prompt = ChatPromptTemplate.from_messages([
         (
             "system",
-            "Finalize a resposta combinando o texto original e o valor da função."
+            "Você é um assistente que reescreve a resposta final de forma NATURAL, "
+            "unindo o texto original e o valor da função. "
+            "NÃO diga que chamou uma função. "
+            "Apenas escreva o resultado como se fosse informação que você mesmo sabe."
         ),
         (
             "human",
-            "Texto original: {resposta}\nValor da função: {valor}\nMonte uma resposta final clara e completa."
+            "Texto original: {resposta}\n"
+            "Valor da função: {valor}\n"
+            "Reescreva tudo de forma clara e natural, sem mencionar funções."
         )
     ])
 
@@ -81,12 +86,6 @@ def configureFunctionCall(result) -> str:
         if func_name == "celularesAtualizados()" or func_name == "celularesAtualizados":
             valor = celularesAtualizados.invoke({})
             print(f"\nFunction Result: {valor}")
-
-            print("Final Answer")
-            resposta_parcial = result.content or ""
-            resposta_final = f"{resposta_parcial}\nA quantidade estimada é {valor} modelos de celulares em 2025."
-            print(resposta_final)
-
             return valor
 
     else:

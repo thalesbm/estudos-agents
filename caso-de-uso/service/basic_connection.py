@@ -4,7 +4,7 @@ from langchain.schema import HumanMessage, SystemMessage
 from typing import List
 from model.answer import Answer
 
-def simpleConnectionToOpenAI(question: str, apiKey: str, answers: List[Answer]):
+def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
     print("Iniciando conexão com a open AI do documento...\n")
 
     chat = ChatOpenAI(model="gpt-4o-mini", api_key=apiKey)

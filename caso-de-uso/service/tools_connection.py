@@ -23,7 +23,16 @@ def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
 
     result = chain.invoke({'query': question, "context": context})
 
-    configureFunctionCall(result)
+    valor = configureFunctionCall(result)
+
+    follow_up_chain = getSaidaPrompt() | chat
+
+    follow_up_result = follow_up_chain.invoke({
+        "resposta": result.content,
+        "valor": valor
+    })
+
+    print(follow_up_result.content)
 
     print("... finalizando conexão com a open AI")
 
@@ -64,7 +73,7 @@ def getSaidaPrompt() -> str:
 
     return prompt
 
-def configureFunctionCall(result):
+def configureFunctionCall(result) -> str:
     if result.additional_kwargs.get("function_call"):
         func_name = result.additional_kwargs["function_call"]["name"]
         print(f"\nFunction Call: {func_name}")
@@ -78,6 +87,10 @@ def configureFunctionCall(result):
             resposta_final = f"{resposta_parcial}\nA quantidade estimada é {valor} modelos de celulares em 2025."
             print(resposta_final)
 
+            return valor
+
     else:
         print("\n\nLLM não executou a tool")
         print(result.content)
+
+        return ""

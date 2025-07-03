@@ -3,8 +3,16 @@ from langchain_core.documents import Document
 
 from typing import List
 
-def splitDocument(document: List[Document]) -> List[Document]:
-    print("Iniciando split do documento...")
+import logging
+
+logger = logging.getLogger(__name__)
+
+def splitDocument(documents: List[Document]) -> List[Document]:
+    logger.info("Iniciando split do documento...")
+
+    if not documents:
+        logger.warning("Nenhum documento recebido para split.")
+        return []
 
     text_splitter = RecursiveCharacterTextSplitter(
         chunk_size=500,
@@ -12,8 +20,8 @@ def splitDocument(document: List[Document]) -> List[Document]:
         separators=["\n\n", "\n", ".", " ", ""]
     )
 
-    chunks = text_splitter.split_documents(document)
+    chunks = text_splitter.split_documents(documents)
 
-    print("... finalizando split do documento \n")
+    logger.info("Finalizando split do documento")
 
     return chunks

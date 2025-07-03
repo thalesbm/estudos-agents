@@ -1,3 +1,6 @@
+from langchain_core.runnables import RunnableLambda
+from langchain_core.documents import Document
+
 from utils.loader import loadDocument
 from utils.splitter import splitDocument
 from utils.embedding import embeddingDocument
@@ -7,18 +10,27 @@ from utils.openai import getOpenAIKey
 from service.select_service import selectServices
 from model.type import ConnectionType
 
+from typing import List
+import logging
+
+
 def init():
-    print("bem vindo ao melhor programa do mundo")
+    logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s: %(message)s")
+    logger = logging.getLogger(__name__)
+
+    logger.info("bem vindo ao melhor programa do mundo")
 
     question = "qual foi o aplicativo escolhido para o projeto?"
 
     apiKey = getOpenAIKey()
 
-    document = loadDocument()
+    # load document
+    runnable1 = RunnableLambda(loadDocument)
+    document = runnable1.invoke(None)
 
-    chunks = splitDocument(
-        document=document
-    )
+    # split document
+    runnable2 = RunnableLambda(splitDocument)
+    chunks = runnable2.invoke(document)
 
     vector_store = embeddingDocument(
         chunks=chunks, 

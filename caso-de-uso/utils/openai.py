@@ -1,11 +1,18 @@
 import os
+import logging
 from dotenv import load_dotenv
 
-def getOpenAIKey():
-    load_dotenv()
+logger = logging.getLogger(__name__)
 
+load_dotenv()
+
+def getOpenAIKey() -> str:
     api_key = os.getenv("OPENAI_API_KEY")
-    print(f"|{api_key}|")
+
+    if api_key:
+        logger.info("OpenAI API key carregada com sucesso.")
+    else:
+        logger.warning("OpenAI API key não foi encontrada!")
 
     return api_key
 

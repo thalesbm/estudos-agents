@@ -4,8 +4,16 @@ from langchain_community.vectorstores.chroma import Chroma
 
 from typing import List
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 def embeddingDocument(chunks: List[Document], apiKey: str) -> Chroma:
-    print("Inicializando embedding do documento...")
+    logger.info("Inicializando embedding do documento...")
+
+    if not chunks:
+        logger.warning("Lista de chunks vazia para embedding.")
+        return None
 
     embeddings = OpenAIEmbeddings(openai_api_key=apiKey)
 
@@ -14,6 +22,6 @@ def embeddingDocument(chunks: List[Document], apiKey: str) -> Chroma:
         embedding=embeddings
     )
 
-    print("... finalizando embedding do documento \n")
+    logger.info("Finalizando embedding do documento")
 
     return vector_store

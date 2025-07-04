@@ -4,20 +4,31 @@ from model.answer import Answer
 
 from typing import List
 
-def findSimilarity(question: str, vector_store: Chroma) -> List[Answer]: 
-    print("Iniciando retrieval do documento...")
+import logging
 
-    docs = vector_store.similarity_search(question, k=3)
+logger = logging.getLogger(__name__)
+
+def retrieveSimilarDocuments(vector_store: Chroma, question: str) -> List[Answer]: 
+    logger.info("Iniciando retrieval do documento...")
+
+    docs = vector_store.similarity_search_with_score(question, k=3)
+
+    if not docs:
+        logger.warning("Nenhum documento similar encontrado para a pergunta.")
 
     answers = []
 
-    for doc in docs:
+    for item in docs:
+        
+        if isinstance(item, tuple):
+            doc = item[0]
+        else:
+            doc = item
+
         answers.append(Answer(content=doc.page_content, metadata=doc.metadata))
 
-        print(doc.page_content)
-        print(doc.metadata)
-        print("\n")
+        logger.info(f"Retrieved chunk: {doc.page_content[:100]}... | Metadata: {doc.metadata}")
 
-    print("... finalizando retrieval do documento \n")
+    logger.info("Finalizando retrieval do documento")
 
     return answers

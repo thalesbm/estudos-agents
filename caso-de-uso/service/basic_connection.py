@@ -4,8 +4,12 @@ from langchain.schema import HumanMessage, SystemMessage
 from typing import List
 from model.answer import Answer
 
+import logging
+
+logger = logging.getLogger(__name__)
+
 def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
-    print("Iniciando conexão com a open AI do documento...\n")
+    logger.info("Iniciando conexão com a open AI do documento...")
 
     chat = ChatOpenAI(model="gpt-4o-mini", api_key=apiKey)
 
@@ -13,9 +17,9 @@ def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
     
     response = chat.invoke(prompt)
 
-    print(response.content)
+    logger.info(response.content)
 
-    print("\n... finalizando conexão com a open AI do documento")
+    logger.info("Finalizando conexão com a open AI do documento")
 
 def getPrompt(question: str, answers: List[Answer]):
     context = ""

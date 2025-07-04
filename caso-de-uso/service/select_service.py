@@ -5,20 +5,25 @@ from model.type import ConnectionType
 from service.basic_connection import connectToOpenAI as basicConnetion
 from service.tools_connection import connectToOpenAI as toolsConnection
 
-def selectServices(question: str, apiKey: str, answers: List[Answer], type: ConnectionType):
-    if type == ConnectionType.BASIC_CONNECTION:
-        
-        basicConnetion(
-            question=question,
-            apiKey=apiKey,
-            answers=answers
-        )
+import logging
+logger = logging.getLogger(__name__)
 
-    elif type == ConnectionType.CONNECTION_WITH_TOOLS:
+def selectServices(answers: List[Answer], question: str, apiKey: str, type: ConnectionType):
 
-        toolsConnection(     
-            question=question,
-            apiKey=apiKey,
-            answers=answers
-        )
+    params = {
+        "question": question,
+        "apiKey": apiKey,
+        "answers": answers
+    }
 
+    services = {
+        ConnectionType.BASIC_CONNECTION: basicConnetion,
+        ConnectionType.CONNECTION_WITH_TOOLS: toolsConnection
+    }
+
+    service = services.get(type)
+
+    if not service:
+       logger.error(f"Tipo de conexão inválido: {type}")
+
+    service(**params)

@@ -35,7 +35,7 @@ def init():
     answers = RunnableLambda(retrieveSimilarDocuments).bind(question=question)
 
     # open AI
-    openAI = RunnableLambda(selectServices).bind(question=question, apiKey=apiKey, type=ConnectionType.BASIC_CONNECTION)
+    openAI = RunnableLambda(selectServices).bind(question=question, apiKey=apiKey, type=ConnectionType.CONNECTION_WITH_TOOLS)
     
     pipeline = document | chunks | vector_store | answers | openAI
     chunks = pipeline.invoke(None)

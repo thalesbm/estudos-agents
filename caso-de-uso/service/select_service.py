@@ -2,8 +2,8 @@ from typing import List
 from model.answer import Answer
 from model.type import ConnectionType
 
-from service.basic_connection import connectToOpenAI as basicConnetion
-from service.tools_connection import connectToOpenAI as toolsConnection
+from service.basic.connection import connectToOpenAI as basicConnetion
+from service.tools.connection import connectToOpenAI as toolsConnection
 
 import logging
 logger = logging.getLogger(__name__)

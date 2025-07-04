@@ -2,7 +2,7 @@ from langchain_openai.chat_models import ChatOpenAI
 
 from typing import List
 from model.answer import Answer
-from service.basic.prompt import getPrompt
+from service.agent_basic.prompt import getPrompt
 
 import logging
 

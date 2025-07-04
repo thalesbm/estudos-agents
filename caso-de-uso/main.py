@@ -1,11 +1,11 @@
 from langchain_core.runnables import RunnableLambda
 from langchain_core.documents import Document
 
-from utils.loader import Loader
-from utils.splitter import Splitter
-from utils.embedding import Embedding
-from utils.retrieval import Retrieval
-from utils.openai import Key
+from pipeline.loader import Loader
+from pipeline.splitter import Splitter
+from pipeline.embedding import Embedding
+from pipeline.retrieval import Retrieval
+from pipeline.openai import Key
 
 from service.select_service import selectServices
 from model.type import ConnectionType

@@ -5,8 +5,8 @@ from typing import List
 from model.answer import Answer
 from tools.celularesAtualizados import celularesAtualizados
 
-from service.tools.prompt import getEntradaPrompt
-from service.tools.prompt import getSaidaPrompt
+from service.agent_tools.prompt import getEntradaPrompt
+from service.agent_tools.prompt import getSaidaPrompt
 
 import logging
 

@@ -21,9 +21,7 @@ def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
 
     finalQuestion = f"{question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
 
-    tools = [convert_to_openai_function(celularesAtualizados)]
-
-    chat = ChatOpenAI(model="gpt-4o-mini", api_key=apiKey).bind(functions=tools)
+    chat = configureOpenAI(apiKey=apiKey)
 
     context = getContext(answers=answers)
 
@@ -33,13 +31,13 @@ def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
 
     result = chain.invoke({'query': finalQuestion, "context": context})
 
-    valor = configureFunctionCall(result)
+    value = configureFunctionCall(result)
 
     follow_up_chain = getSaidaPrompt() | chat
 
     follow_up_result = follow_up_chain.invoke({
         "resposta": result.content,
-        "valor": valor
+        "valor": value
     })
 
     logger.info("===================================")
@@ -47,6 +45,10 @@ def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
     logger.info("===================================")
 
     logger.info("Finalizando conexão com a open AI")
+
+def configureOpenAI(apiKey: str) -> ChatOpenAI:
+    tools = [convert_to_openai_function(celularesAtualizados)]
+    return ChatOpenAI(model="gpt-4o-mini", api_key=apiKey).bind(functions=tools)
 
 def getContext(answers: List[Answer]):
     context = ""

@@ -8,27 +8,29 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def retrieveSimilarDocuments(vector_store: Chroma, question: str) -> List[Answer]: 
-    logger.info("Iniciando retrieval do documento...")
+class Retrieval:
 
-    docs = vector_store.similarity_search_with_score(question, k=3)
+    def retrieveSimilarDocuments(vector_store: Chroma, question: str) -> List[Answer]: 
+        logger.info("Iniciando retrieval do documento...")
 
-    if not docs:
-        logger.warning("Nenhum documento similar encontrado para a pergunta.")
+        docs = vector_store.similarity_search_with_score(question, k=3)
 
-    answers = []
+        if not docs:
+            logger.warning("Nenhum documento similar encontrado para a pergunta.")
 
-    for item in docs:
-        
-        if isinstance(item, tuple):
-            doc = item[0]
-        else:
-            doc = item
+        answers = []
 
-        answers.append(Answer(content=doc.page_content, metadata=doc.metadata))
+        for item in docs:
+            
+            if isinstance(item, tuple):
+                doc = item[0]
+            else:
+                doc = item
 
-        logger.info(f"Retrieved chunk: {doc.page_content[:100]}... | Metadata: {doc.metadata}")
+            answers.append(Answer(content=doc.page_content, metadata=doc.metadata))
 
-    logger.info("Finalizando retrieval do documento")
+            logger.info(f"Retrieved chunk: {doc.page_content[:100]}... | Metadata: {doc.metadata}")
 
-    return answers
+        logger.info("Finalizando retrieval do documento")
+
+        return answers

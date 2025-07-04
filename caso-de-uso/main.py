@@ -1,11 +1,11 @@
 from langchain_core.runnables import RunnableLambda
 from langchain_core.documents import Document
 
-from utils.loader import loadDocument
-from utils.splitter import splitDocument
-from utils.embedding import embeddingDocument
-from utils.retrieval import retrieveSimilarDocuments
-from utils.openai import getOpenAIKey
+from utils.loader import Loader
+from utils.splitter import Splitter
+from utils.embedding import Embedding
+from utils.retrieval import Retrieval
+from utils.openai import Key
 
 from service.select_service import selectServices
 from model.type import ConnectionType
@@ -20,19 +20,19 @@ def init():
 
     question = "qual foi o aplicativo escolhido para o projeto?"
 
-    apiKey = getOpenAIKey()
+    apiKey = Key.getOpenAIKey()
 
     # load
-    document = RunnableLambda(loadDocument)
+    document = RunnableLambda(Loader.loadDocument)
     
     # split
-    chunks = RunnableLambda(splitDocument)
+    chunks = RunnableLambda(Splitter.splitDocument)
 
     # embedding
-    vector_store = RunnableLambda(embeddingDocument).bind(apiKey=apiKey)
+    vector_store = RunnableLambda(Embedding.embeddingDocument).bind(apiKey=apiKey)
 
     # retrieval
-    answers = RunnableLambda(retrieveSimilarDocuments).bind(question=question)
+    answers = RunnableLambda(Retrieval.retrieveSimilarDocuments).bind(question=question)
 
     # open AI
     openAI = RunnableLambda(selectServices).bind(question=question, apiKey=apiKey, type=ConnectionType.CONNECTION_WITH_TOOLS)

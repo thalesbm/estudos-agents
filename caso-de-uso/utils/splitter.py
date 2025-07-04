@@ -7,21 +7,22 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def splitDocument(documents: List[Document]) -> List[Document]:
-    logger.info("Iniciando split do documento...")
+class Splitter:
+    def splitDocument(documents: List[Document]) -> List[Document]:
+        logger.info("Iniciando split do documento...")
 
-    if not documents:
-        logger.warning("Nenhum documento recebido para split.")
-        return []
+        if not documents:
+            logger.warning("Nenhum documento recebido para split.")
+            return []
 
-    text_splitter = RecursiveCharacterTextSplitter(
-        chunk_size=500,
-        chunk_overlap=50,
-        separators=["\n\n", "\n", ".", " ", ""]
-    )
+        text_splitter = RecursiveCharacterTextSplitter(
+            chunk_size=500,
+            chunk_overlap=50,
+            separators=["\n\n", "\n", ".", " ", ""]
+        )
 
-    chunks = text_splitter.split_documents(documents)
+        chunks = text_splitter.split_documents(documents)
 
-    logger.info("Finalizando split do documento")
+        logger.info("Finalizando split do documento")
 
-    return chunks
+        return chunks

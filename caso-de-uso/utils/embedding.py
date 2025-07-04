@@ -8,20 +8,22 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def embeddingDocument(chunks: List[Document], apiKey: str) -> Chroma:
-    logger.info("Inicializando embedding do documento...")
+class Embedding:
 
-    if not chunks:
-        logger.warning("Lista de chunks vazia para embedding.")
-        return None
+    def embeddingDocument(chunks: List[Document], apiKey: str) -> Chroma:
+        logger.info("Inicializando embedding do documento...")
 
-    embeddings = OpenAIEmbeddings(openai_api_key=apiKey)
+        if not chunks:
+            logger.warning("Lista de chunks vazia para embedding.")
+            return None
 
-    vector_store = Chroma.from_documents(
-        documents=chunks,
-        embedding=embeddings
-    )
+        embeddings = OpenAIEmbeddings(openai_api_key=apiKey)
 
-    logger.info("Finalizando embedding do documento")
+        vector_store = Chroma.from_documents(
+            documents=chunks,
+            embedding=embeddings
+        )
 
-    return vector_store
+        logger.info("Finalizando embedding do documento")
+
+        return vector_store

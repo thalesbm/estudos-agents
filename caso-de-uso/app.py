@@ -1,11 +1,8 @@
 from controller.main_controller import MainController
+from view.main_view import MainView
 
 import streamlit as st
 import logging
-
-from model.answer import Answer
-
-from typing import List
 
 logger = logging.getLogger(__name__)
 
@@ -14,43 +11,21 @@ def init():
 
     logger.info("Bem vindo ao melhor mini agente do mundo")
 
-    set_view()
+    MainView.set_view()
 
     if "controller" not in st.session_state:
         st.session_state.controller = MainController()
         logger.info("Controller inicializado!")
 
-    question = get_user_input()
+    question = MainView.get_user_input()
     
     if question:
         evaluate = st.session_state.controller.run(
             question=question, 
-            chunks_callback=update_view_with_chunks,
-            result_callback=update_view_with_result
+            chunks_callback=MainView.update_view_with_chunks,
+            result_callback=MainView.update_view_with_result
         )
-        update_view_with_evaluate(evaluate)
-
-def set_view():
-    logging.info("Configurando View")
-    st.write("")
-    st.header("Podem perguntar sobre o meu TCC")
-
-def get_user_input() -> str:
-    return st.text_input("Digite sua pergunta", value = "qual foi o aplicativo escolhido para o projeto?")
-
-def update_view_with_chunks(answers: List[Answer]):
-    st.subheader("Chunks recuperados:")
-    
-    for answer in answers:
-        st.write(answer.content)
-
-def update_view_with_result(result: str):
-    st.subheader("Resposta final OpenAI:")
-    st.write(result)
-
-def update_view_with_evaluate(evaluate: str):
-    st.subheader("Evaluate:")
-    st.write(evaluate)
+        MainView.update_view_with_evaluate(evaluate)
 
 if __name__ == "__main__":
     init()

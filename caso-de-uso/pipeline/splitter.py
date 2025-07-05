@@ -22,7 +22,20 @@ class Splitter:
         )
 
         chunks = text_splitter.split_documents(documents)
-
+        logger.info(f"Número de chunks gerados: {len(chunks)}")
+        
+        unique_chunks = remove_duplicate_chunks(chunks)
+        logger.info(f"Número de chunks únicos: {len(unique_chunks)}")
+        
         logger.info("Finalizando split do documento")
 
-        return chunks
+        return unique_chunks
+    
+def remove_duplicate_chunks(chunks: List[Document]):
+    unique_chunks = []
+    seen_contents = set()
+    for chunk in chunks:
+        if chunk.page_content not in seen_contents:
+            unique_chunks.append(chunk)
+            seen_contents.add(chunk.page_content)
+    return unique_chunks

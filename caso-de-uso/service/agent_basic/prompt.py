@@ -8,7 +8,7 @@ class Prompt:
 
         prompt = [
             SystemMessage(
-                content="Você é um assistente que responde com base APENAS no contexto abaixo com tom de ironia"
+                content="Você é um assistente que responde de forma simples e objetiva"
             ),
             HumanMessage(
                 content=f"Contexto:\n{context}\n\nPergunta: {question}\nResponda de forma clara e cite a fonte se possível."

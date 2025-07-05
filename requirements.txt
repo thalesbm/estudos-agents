@@ -7,6 +7,8 @@ faker
 matplotlib
 colorama
 streamlit
+langchain-chroma
+langchainhub==0.1.15
 langchain==0.1.16
 langchain-community==0.0.33
 langchain-openai
@@ -21,12 +23,12 @@ beautifulsoup4==4.12.3
 ffmpeg
 ffprobe
 sentence-transformers==2.7.0
-langchain-chroma
 chromadb
 lark
-langchainhub==0.1.15
 pydantic
 wikipedia
 stackapi
 tabulate
 arxiv
+ragas
+datasets

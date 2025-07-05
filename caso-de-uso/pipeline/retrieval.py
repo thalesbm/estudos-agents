@@ -20,6 +20,8 @@ class Retrieval:
 
         answers = []
 
+        logger.info(f"Chunks size: {len(docs)}")
+
         for item in docs:
             
             if isinstance(item, tuple):

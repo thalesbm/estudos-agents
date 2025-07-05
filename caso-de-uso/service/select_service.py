@@ -32,7 +32,8 @@ class SelectServices:
         if not service:
             logger.error(f"Tipo de conexão inválido: {type}")
 
-        service.connect(**params)
+        return service.connect(**params)
+        
 
 def get_context(answers: List[Answer]) -> str:
     context = ""

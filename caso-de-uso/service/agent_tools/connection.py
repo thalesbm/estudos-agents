@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class ConnectionWithToolsToOpenAI:
 
-    def connect(self, context: str, question: str, api_key: str):
+    def connect(self, context: str, question: str, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI...")
 
         finalQuestion = f"{question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
@@ -36,6 +36,8 @@ class ConnectionWithToolsToOpenAI:
         logger.info("===================================")
 
         logger.info("Finalizando conexão com a open AI")
+
+        return follow_up_result.content
 
     def configure_function_call(self, result) -> str:
         if result.additional_kwargs.get("function_call"):

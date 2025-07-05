@@ -12,11 +12,14 @@ class SelectServices:
 
     def run(answers: List[Answer], question: str, api_key: str, type: ConnectionType):
 
+        if not answers:
+            logger.warning("Nenhum contexto fornecido. Verifique se a lista de answers está vazia.")
+            return
+
         params = {
             "context": get_context(answers),
             "question": question,
             "api_key": api_key,
-            "answers": answers
         }
 
         services = {

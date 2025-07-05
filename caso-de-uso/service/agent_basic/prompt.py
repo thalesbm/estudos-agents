@@ -2,7 +2,6 @@ from langchain.schema import HumanMessage, SystemMessage
 from langchain_core.messages import BaseMessage
 
 from typing import List
-from model.answer import Answer
 
 class Prompt:
     def getPrompt(question: str, context: str) -> List[BaseMessage]:

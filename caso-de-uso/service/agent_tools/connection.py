@@ -1,7 +1,5 @@
 from langchain_core.utils.function_calling import convert_to_openai_function
 
-from typing import List
-from model.answer import Answer
 from tools.celulares_atualizados import celulares_atualizados
 from infra.openai_client import OpenAIClientFactory
 
@@ -13,19 +11,13 @@ logger = logging.getLogger(__name__)
 
 class ConnectionWithToolsToOpenAI:
 
-    def connect(self, context: str, question: str, api_key: str, answers: List[Answer]):
+    def connect(self, context: str, question: str, api_key: str):
         logger.info("Iniciando conexão com a open AI...")
-
-        if not answers:
-            logger.warning("Nenhum contexto fornecido. Verifique se a lista de answers está vazia.")
-            return
 
         finalQuestion = f"{question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
 
         tools = [convert_to_openai_function(celulares_atualizados)]
         chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(tools)
-
-        # context = self.get_context(answers=answers)
 
         prompt = Prompt.get_entry_prompt()
         

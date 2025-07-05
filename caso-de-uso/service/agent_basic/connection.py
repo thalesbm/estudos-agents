@@ -1,5 +1,3 @@
-from typing import List
-from model.answer import Answer
 from service.agent_basic.prompt import Prompt
 from infra.openai_client import OpenAIClientFactory
 
@@ -9,12 +7,8 @@ logger = logging.getLogger(__name__)
 
 class BaseConnectionToOpenAI:
 
-    def connect(self, context: str, question: str, api_key: str, answers: List[Answer]):
+    def connect(self, context: str, question: str, api_key: str):
         logger.info("Iniciando conexão com a open AI do documento...")
-
-        if not answers:
-            logger.warning("Nenhum contexto foi passado para o prompt.")
-            return
 
         prompt = Prompt.getPrompt(question=question, context=context)
 

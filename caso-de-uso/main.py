@@ -1,5 +1,4 @@
 from langchain_core.runnables import RunnableLambda
-from langchain_core.documents import Document
 
 from pipeline.loader import Loader
 from pipeline.splitter import Splitter
@@ -7,7 +6,7 @@ from pipeline.embedding import Embedding
 from pipeline.retrieval import Retrieval
 from pipeline.openai import Key
 
-from service.select_service import selectServices
+from service.select_service import SelectServices
 from model.type import ConnectionType
 
 import logging
@@ -35,7 +34,7 @@ def init():
     answers = RunnableLambda(Retrieval.retrieve_similar_documents).bind(question=question)
 
     # open AI
-    openAI = RunnableLambda(selectServices).bind(question=question, api_key=api_key, type=ConnectionType.CONNECTION_WITH_TOOLS)
+    openAI = RunnableLambda(SelectServices.run).bind(question=question, api_key=api_key, type=ConnectionType.CONNECTION_WITH_TOOLS)
     
     pipeline = document | chunks | vector_store | answers | openAI
     chunks = pipeline.invoke(None)

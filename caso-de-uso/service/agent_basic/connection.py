@@ -9,14 +9,14 @@ logger = logging.getLogger(__name__)
 
 class BaseConnectionToOpenAI:
 
-    def connect(self, question: str, api_key: str, answers: List[Answer]):
+    def connect(self, context: str, question: str, api_key: str, answers: List[Answer]):
         logger.info("Iniciando conexão com a open AI do documento...")
 
         if not answers:
             logger.warning("Nenhum contexto foi passado para o prompt.")
             return
 
-        prompt = Prompt.getPrompt(question=question, answers=answers)
+        prompt = Prompt.getPrompt(question=question, context=context)
 
         chat = OpenAIClientFactory(api_key=api_key).create_basic_client()
 

@@ -5,10 +5,7 @@ from typing import List
 from model.answer import Answer
 
 class Prompt:
-    def getPrompt(question: str, answers: List[Answer]) -> List[BaseMessage]:
-        context = ""
-        for ans in answers:
-            context += ans.content + "\n---\n"
+    def getPrompt(question: str, context: str) -> List[BaseMessage]:
 
         prompt = [
             SystemMessage(

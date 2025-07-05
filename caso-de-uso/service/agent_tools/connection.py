@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 class ConnectionWithToolsToOpenAI:
 
-    def connect(self, question: str, api_key: str, answers: List[Answer]):
+    def connect(self, context: str, question: str, api_key: str, answers: List[Answer]):
         logger.info("Iniciando conexão com a open AI...")
 
         if not answers:
@@ -25,7 +25,7 @@ class ConnectionWithToolsToOpenAI:
         tools = [convert_to_openai_function(celulares_atualizados)]
         chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(tools)
 
-        context = self.get_context(answers=answers)
+        # context = self.get_context(answers=answers)
 
         prompt = Prompt.get_entry_prompt()
         
@@ -47,13 +47,6 @@ class ConnectionWithToolsToOpenAI:
         logger.info("===================================")
 
         logger.info("Finalizando conexão com a open AI")
-
-    def get_context(self, answers: List[Answer]):
-        context = ""
-        for ans in answers:
-            context += ans.content + "\n---\n"
-
-        return context
 
     def configure_function_call(self, result) -> str:
         if result.additional_kwargs.get("function_call"):

@@ -8,22 +8,32 @@ from service.agent_tools.connection import ConnectionWithToolsToOpenAI
 import logging
 logger = logging.getLogger(__name__)
 
-def selectServices(answers: List[Answer], question: str, api_key: str, type: ConnectionType):
+class SelectServices:
 
-    params = {
-        "question": question,
-        "api_key": api_key,
-        "answers": answers
-    }
+    def run(answers: List[Answer], question: str, api_key: str, type: ConnectionType):
 
-    services = {
-        ConnectionType.BASIC_CONNECTION: BaseConnectionToOpenAI(),
-        ConnectionType.CONNECTION_WITH_TOOLS: ConnectionWithToolsToOpenAI()
-    }
+        params = {
+            "context": get_context(answers),
+            "question": question,
+            "api_key": api_key,
+            "answers": answers
+        }
 
-    service = services.get(type)
+        services = {
+            ConnectionType.BASIC_CONNECTION: BaseConnectionToOpenAI(),
+            ConnectionType.CONNECTION_WITH_TOOLS: ConnectionWithToolsToOpenAI()
+        }
 
-    if not service:
-       logger.error(f"Tipo de conexão inválido: {type}")
+        service = services.get(type)
 
-    service.connect(**params)
+        if not service:
+            logger.error(f"Tipo de conexão inválido: {type}")
+
+        service.connect(**params)
+
+def get_context(answers: List[Answer]) -> str:
+    context = ""
+    for ans in answers:
+        context += ans.content + "\n---\n"
+
+    return context

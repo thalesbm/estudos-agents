@@ -21,8 +21,10 @@ class Embedding:
 
         vector_store = Chroma.from_documents(
             documents=chunks,
-            embedding=embeddings
+            embedding=embeddings,
+            persist_directory="./files/db"
         )
+        vector_store.persist()
 
         logger.info("Finalizando embedding do documento")
 

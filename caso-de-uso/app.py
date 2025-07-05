@@ -28,7 +28,7 @@ def init():
 
 def set_view():
     logging.info("Configurando View")
-
+    st.write("")
     st.header("Podem perguntar sobre o meu TCC")
 
 def get_user_input() -> str:

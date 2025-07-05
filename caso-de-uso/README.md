@@ -1,10 +1,11 @@
 #### Este projeto é um agente RAG construído em Python com LangChain, que:
 
-- Utiliza RAG para responder perguntas baseadas em documentos PDF [DONE]
-- Enriquecido com tools externas via function calling, para complementar respostas com dados dinâmicos [DONE]
-- Utiliza uma interface para enviar as perguntas (Streamlit) [DONE]
-- Utiliza Ragas para avaliar se o RAG realmente responde corretamente (Context Recall, Faithfulness, Answer Relevance)
+- [DONE] Utiliza RAG para responder perguntas baseadas em documentos PDF
+- [DONE] Enriquecido com tools externas via function calling, para complementar respostas com dados dinâmicos
+- [DONE] Utiliza uma interface para enviar as perguntas (Streamlit) 
+- [DONE] Utiliza Ragas para avaliar se o RAG realmente responde corretamente (Context Recall, Faithfulness, Answer Relevance)
 - Outros conceitos de prompt Engineering
+- ReAct
 - Adicione memoria
 
 #### Comandos:

@@ -23,8 +23,12 @@ def init():
     question = get_user_input()
     
     if question:
-        result = st.session_state.controller.run(question, update_view_with_chunks)
-        update_view_with_result(result)
+        evaluate = st.session_state.controller.run(
+            question=question, 
+            chunks_callback=update_view_with_chunks,
+            result_callback=update_view_with_result
+        )
+        update_view_with_evaluate(evaluate)
 
 def set_view():
     logging.info("Configurando View")
@@ -43,6 +47,10 @@ def update_view_with_chunks(answers: List[Answer]):
 def update_view_with_result(result: str):
     st.subheader("Resposta final OpenAI:")
     st.write(result)
+
+def update_view_with_evaluate(evaluate: str):
+    st.subheader("Evaluate:")
+    st.write(evaluate)
 
 if __name__ == "__main__":
     init()

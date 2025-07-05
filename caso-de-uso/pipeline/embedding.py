@@ -4,7 +4,9 @@ from langchain_community.vectorstores.chroma import Chroma
 
 from typing import List
 
+import shutil
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -19,10 +21,15 @@ class Embedding:
 
         embeddings = OpenAIEmbeddings(openai_api_key=api_key)
 
+        path = "./files/db"
+
+        if os.path.exists(path):
+            shutil.rmtree(path, ignore_errors=True)
+
         vector_store = Chroma.from_documents(
             documents=chunks,
             embedding=embeddings,
-            persist_directory="./files/db"
+            persist_directory=path
         )
         vector_store.persist()
 

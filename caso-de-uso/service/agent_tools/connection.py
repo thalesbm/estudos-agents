@@ -12,7 +12,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
+def connectToOpenAI(question: str, api_key: str, answers: List[Answer]):
     logger.info("Iniciando conexão com a open AI...")
 
     if not answers:
@@ -21,7 +21,7 @@ def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
 
     finalQuestion = f"{question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
 
-    chat = configureOpenAI(apiKey=apiKey)
+    chat = configureOpenAI(api_key=api_key)
 
     context = getContext(answers=answers)
 
@@ -46,9 +46,9 @@ def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
 
     logger.info("Finalizando conexão com a open AI")
 
-def configureOpenAI(apiKey: str) -> ChatOpenAI:
+def configureOpenAI(api_key: str) -> ChatOpenAI:
     tools = [convert_to_openai_function(celularesAtualizados)]
-    return ChatOpenAI(model="gpt-4o-mini", api_key=apiKey).bind(functions=tools)
+    return ChatOpenAI(model="gpt-4o-mini", api_key=api_key).bind(functions=tools)
 
 def getContext(answers: List[Answer]):
     context = ""

@@ -8,11 +8,11 @@ from service.agent_tools.connection import connectToOpenAI as toolsConnection
 import logging
 logger = logging.getLogger(__name__)
 
-def selectServices(answers: List[Answer], question: str, apiKey: str, type: ConnectionType):
+def selectServices(answers: List[Answer], question: str, api_key: str, type: ConnectionType):
 
     params = {
         "question": question,
-        "apiKey": apiKey,
+        "api_key": api_key,
         "answers": answers
     }
 

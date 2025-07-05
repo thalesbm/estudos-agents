@@ -8,7 +8,7 @@ load_dotenv()
 
 class Key:
 
-    def getOpenAIKey() -> str:
+    def get_openai_key() -> str:
         api_key = os.getenv("OPENAI_API_KEY")
 
         if api_key:

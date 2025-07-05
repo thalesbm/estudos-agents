@@ -8,7 +8,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Splitter:
-    def splitDocument(documents: List[Document]) -> List[Document]:
+    def split_document(documents: List[Document]) -> List[Document]:
         logger.info("Iniciando split do documento...")
 
         if not documents:

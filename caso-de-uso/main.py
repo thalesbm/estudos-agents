@@ -20,22 +20,22 @@ def init():
 
     question = "qual foi o aplicativo escolhido para o projeto?"
 
-    apiKey = Key.getOpenAIKey()
+    api_key = Key.get_openai_key()
 
     # load
-    document = RunnableLambda(Loader.loadDocument)
+    document = RunnableLambda(Loader.load_document)
     
     # split
-    chunks = RunnableLambda(Splitter.splitDocument)
+    chunks = RunnableLambda(Splitter.split_document)
 
     # embedding
-    vector_store = RunnableLambda(Embedding.embeddingDocument).bind(apiKey=apiKey)
+    vector_store = RunnableLambda(Embedding.embedding_document).bind(api_key=api_key)
 
     # retrieval
-    answers = RunnableLambda(Retrieval.retrieveSimilarDocuments).bind(question=question)
+    answers = RunnableLambda(Retrieval.retrieve_similar_documents).bind(question=question)
 
     # open AI
-    openAI = RunnableLambda(selectServices).bind(question=question, apiKey=apiKey, type=ConnectionType.CONNECTION_WITH_TOOLS)
+    openAI = RunnableLambda(selectServices).bind(question=question, api_key=api_key, type=ConnectionType.CONNECTION_WITH_TOOLS)
     
     pipeline = document | chunks | vector_store | answers | openAI
     chunks = pipeline.invoke(None)

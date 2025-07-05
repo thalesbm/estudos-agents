@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 class Loader:
 
     @lru_cache(maxsize=1)
-    def loadDocument(_: dict = None) -> List[Document]:
+    def load_document(_: dict = None) -> List[Document]:
         logger.info("Iniciando carregando do documento...")
 
         file_path = "files/tcc.pdf"

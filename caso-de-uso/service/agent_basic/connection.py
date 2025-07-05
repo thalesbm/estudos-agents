@@ -2,23 +2,24 @@ from langchain_openai.chat_models import ChatOpenAI
 
 from typing import List
 from model.answer import Answer
-from service.agent_basic.prompt import getPrompt
+from service.agent_basic.prompt import Prompt
+from infra.openai_client import OpenAIClientFactory
 
 import logging
 
 logger = logging.getLogger(__name__)
 
-def connectToOpenAI(question: str, apiKey: str, answers: List[Answer]):
+def connectToOpenAI(question: str, api_key: str, answers: List[Answer]):
     logger.info("Iniciando conexão com a open AI do documento...")
 
     if not answers:
         logger.warning("Nenhum contexto foi passado para o prompt.")
         return
 
-    chat = ChatOpenAI(model="gpt-4o-mini", api_key=apiKey)
+    prompt = Prompt.getPrompt(question=question, answers=answers)
 
-    prompt = getPrompt(question=question, answers=answers)
-    
+    chat = OpenAIClientFactory.create_basic_client(api_key=api_key)
+
     response = chat.invoke(prompt)
 
     logger.info("===================================")

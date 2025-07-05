@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class Retrieval:
 
-    def retrieveSimilarDocuments(vector_store: Chroma, question: str) -> List[Answer]: 
+    def retrieve_similar_documents(vector_store: Chroma, question: str) -> List[Answer]: 
         logger.info("Iniciando retrieval do documento...")
 
         docs = vector_store.similarity_search_with_score(question, k=3)

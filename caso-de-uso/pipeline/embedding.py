@@ -10,14 +10,14 @@ logger = logging.getLogger(__name__)
 
 class Embedding:
 
-    def embeddingDocument(chunks: List[Document], apiKey: str) -> Chroma:
+    def embedding_document(chunks: List[Document], api_key: str) -> Chroma:
         logger.info("Inicializando embedding do documento...")
 
         if not chunks:
             logger.warning("Lista de chunks vazia para embedding.")
             return None
 
-        embeddings = OpenAIEmbeddings(openai_api_key=apiKey)
+        embeddings = OpenAIEmbeddings(openai_api_key=api_key)
 
         vector_store = Chroma.from_documents(
             documents=chunks,

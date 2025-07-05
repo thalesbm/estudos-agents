@@ -1,8 +1,7 @@
-from langchain_core.utils.function_calling import convert_to_openai_function
-
 from tools.celulares_atualizados import celulares_atualizados
 from infra.openai_client import OpenAIClientFactory
 
+from tools.celulares_atualizados import ToolManager
 from service.agent_tools.prompt import Prompt
 
 import logging
@@ -16,11 +15,9 @@ class ConnectionWithToolsToOpenAI:
 
         finalQuestion = f"{question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
 
-        tools = [convert_to_openai_function(celulares_atualizados)]
-        chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(tools)
+        chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(ToolManager.get_tools())
 
         prompt = Prompt.get_entry_prompt()
-        
         chain = prompt | chat
 
         result = chain.invoke({'query': finalQuestion, "context": context})
@@ -45,13 +42,11 @@ class ConnectionWithToolsToOpenAI:
             func_name = result.additional_kwargs["function_call"]["name"]
             logger.info(f"Function Call: {func_name}")
 
-            if func_name == "celulares_atualizados()" or func_name == "celulares_atualizados":
+            if func_name in ["celulares_atualizados()", "celulares_atualizados"]:
                 valor = celulares_atualizados.invoke({})
                 logger.info(f"Function Result: {valor}")
                 return valor
 
-        else:
-            logger.warning("LLM não executou a tool")
-            logger.warning(result.content)
-
-            return ""
+        logger.warning("LLM não executou a tool")
+        logger.warning(result.content)
+        return ""

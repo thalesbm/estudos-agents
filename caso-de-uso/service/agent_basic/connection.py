@@ -10,11 +10,13 @@ class BaseConnectionToOpenAI:
     def connect(self, context: str, question: str, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI do documento...")
 
-        prompt = Prompt.getPrompt(question=question, context=context)
+        prompt = Prompt(question=question, context=context)
+
+        input = prompt.get_zero_show_prompt()
 
         chat = OpenAIClientFactory(api_key=api_key).create_basic_client()
 
-        response = chat.invoke(prompt)
+        response = chat.invoke(input)
 
         logger.info("===================================")
         logger.info(f"OpenAI: {response.content}")

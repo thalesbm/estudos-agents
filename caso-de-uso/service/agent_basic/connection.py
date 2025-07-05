@@ -7,7 +7,7 @@ logger = logging.getLogger(__name__)
 
 class BaseConnectionToOpenAI:
 
-    def connect(self, context: str, question: str, api_key: str):
+    def connect(self, context: str, question: str, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI do documento...")
 
         prompt = Prompt.getPrompt(question=question, context=context)
@@ -21,3 +21,5 @@ class BaseConnectionToOpenAI:
         logger.info("===================================")
 
         logger.info("Finalizando conexão com a open AI do documento")
+
+        return response.content

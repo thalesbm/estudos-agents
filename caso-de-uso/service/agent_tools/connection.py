@@ -4,71 +4,69 @@ from langchain_core.utils.function_calling import convert_to_openai_function
 from typing import List
 from model.answer import Answer
 from tools.celularesAtualizados import celularesAtualizados
+from infra.openai_client import OpenAIClientFactory
 
-from service.agent_tools.prompt import getEntradaPrompt
-from service.agent_tools.prompt import getSaidaPrompt
+from service.agent_tools.prompt import Prompt
 
 import logging
 
 logger = logging.getLogger(__name__)
 
-def connectToOpenAI(question: str, api_key: str, answers: List[Answer]):
-    logger.info("Iniciando conexão com a open AI...")
+class ConnectionWithToolsToOpenAI:
 
-    if not answers:
-        logger.warning("Nenhum contexto fornecido. Verifique se a lista de answers está vazia.")
-        return
+    def connect(self, question: str, api_key: str, answers: List[Answer]):
+        logger.info("Iniciando conexão com a open AI...")
 
-    finalQuestion = f"{question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
+        if not answers:
+            logger.warning("Nenhum contexto fornecido. Verifique se a lista de answers está vazia.")
+            return
 
-    chat = configureOpenAI(api_key=api_key)
+        finalQuestion = f"{question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
 
-    context = getContext(answers=answers)
+        chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools()
 
-    prompt = getEntradaPrompt()
-    
-    chain = prompt | chat
+        context = self.get_context(answers=answers)
 
-    result = chain.invoke({'query': finalQuestion, "context": context})
+        prompt = Prompt.get_entry_prompt()
+        
+        chain = prompt | chat
 
-    value = configureFunctionCall(result)
+        result = chain.invoke({'query': finalQuestion, "context": context})
 
-    follow_up_chain = getSaidaPrompt() | chat
+        value = self.configure_function_call(result)
 
-    follow_up_result = follow_up_chain.invoke({
-        "resposta": result.content,
-        "valor": value
-    })
+        follow_up_chain = Prompt.get_exit_prompt() | chat
 
-    logger.info("===================================")
-    logger.info(f"OpenAI: {follow_up_result.content}")
-    logger.info("===================================")
+        follow_up_result = follow_up_chain.invoke({
+            "resposta": result.content,
+            "valor": value
+        })
 
-    logger.info("Finalizando conexão com a open AI")
+        logger.info("===================================")
+        logger.info(f"OpenAI: {follow_up_result.content}")
+        logger.info("===================================")
 
-def configureOpenAI(api_key: str) -> ChatOpenAI:
-    tools = [convert_to_openai_function(celularesAtualizados)]
-    return ChatOpenAI(model="gpt-4o-mini", api_key=api_key).bind(functions=tools)
+        logger.info("Finalizando conexão com a open AI")
 
-def getContext(answers: List[Answer]):
-    context = ""
-    for ans in answers:
-        context += ans.content + "\n---\n"
+    def get_context(self, answers: List[Answer]):
+        context = ""
+        for ans in answers:
+            context += ans.content + "\n---\n"
 
-    return context
+        return context
 
-def configureFunctionCall(result) -> str:
-    if result.additional_kwargs.get("function_call"):
-        func_name = result.additional_kwargs["function_call"]["name"]
-        logger.info(f"Function Call: {func_name}")
+    def configure_function_call(self, result) -> str:
+        if result.additional_kwargs.get("function_call"):
+            func_name = result.additional_kwargs["function_call"]["name"]
+            logger.info(f"Function Call: {func_name}")
 
-        if func_name == "celularesAtualizados()" or func_name == "celularesAtualizados":
-            valor = celularesAtualizados.invoke({})
-            logger.info(f"Function Result: {valor}")
-            return valor
+            if func_name == "celularesAtualizados()" or func_name == "celularesAtualizados":
+                valor = celularesAtualizados.invoke({})
+                logger.info(f"Function Result: {valor}")
+                return valor
 
-    else:
-        logger.warning("LLM não executou a tool")
-        logger.warning(result.content)
+        else:
+            logger.warning("LLM não executou a tool")
+            logger.warning(result.content)
 
-        return ""
+            return ""

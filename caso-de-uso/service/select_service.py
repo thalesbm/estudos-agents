@@ -2,8 +2,8 @@ from typing import List
 from model.answer import Answer
 from model.type import ConnectionType
 
-from service.agent_basic.connection import connectToOpenAI as basicConnetion
-from service.agent_tools.connection import connectToOpenAI as toolsConnection
+from service.agent_basic.connection import BaseConnectionToOpenAI
+from service.agent_tools.connection import ConnectionWithToolsToOpenAI
 
 import logging
 logger = logging.getLogger(__name__)
@@ -17,8 +17,8 @@ def selectServices(answers: List[Answer], question: str, api_key: str, type: Con
     }
 
     services = {
-        ConnectionType.BASIC_CONNECTION: basicConnetion,
-        ConnectionType.CONNECTION_WITH_TOOLS: toolsConnection
+        ConnectionType.BASIC_CONNECTION: BaseConnectionToOpenAI(),
+        ConnectionType.CONNECTION_WITH_TOOLS: ConnectionWithToolsToOpenAI()
     }
 
     service = services.get(type)
@@ -26,4 +26,4 @@ def selectServices(answers: List[Answer], question: str, api_key: str, type: Con
     if not service:
        logger.error(f"Tipo de conexão inválido: {type}")
 
-    service(**params)
+    service.connect(**params)

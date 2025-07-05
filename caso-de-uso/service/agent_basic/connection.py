@@ -9,21 +9,23 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-def connectToOpenAI(question: str, api_key: str, answers: List[Answer]):
-    logger.info("Iniciando conexão com a open AI do documento...")
+class BaseConnectionToOpenAI:
 
-    if not answers:
-        logger.warning("Nenhum contexto foi passado para o prompt.")
-        return
+    def connect(self, question: str, api_key: str, answers: List[Answer]):
+        logger.info("Iniciando conexão com a open AI do documento...")
 
-    prompt = Prompt.getPrompt(question=question, answers=answers)
+        if not answers:
+            logger.warning("Nenhum contexto foi passado para o prompt.")
+            return
 
-    chat = OpenAIClientFactory.create_basic_client(api_key=api_key)
+        prompt = Prompt.getPrompt(question=question, answers=answers)
 
-    response = chat.invoke(prompt)
+        chat = OpenAIClientFactory(api_key=api_key).create_basic_client()
 
-    logger.info("===================================")
-    logger.info(f"OpenAI: {response.content}")
-    logger.info("===================================")
+        response = chat.invoke(prompt)
 
-    logger.info("Finalizando conexão com a open AI do documento")
+        logger.info("===================================")
+        logger.info(f"OpenAI: {response.content}")
+        logger.info("===================================")
+
+        logger.info("Finalizando conexão com a open AI do documento")

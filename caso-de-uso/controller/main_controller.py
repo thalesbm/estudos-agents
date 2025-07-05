@@ -6,7 +6,8 @@ from pipeline.openai import Key
 from pipeline.evaluate import Evaluate
 
 from service.select_service import SelectServices
-from model.type import ConnectionType
+from model.connection_type import ConnectionType
+from model.prompt_type import PromptType
 
 import logging
 
@@ -40,7 +41,8 @@ class MainController:
             answers=chunks,
             question=question, 
             api_key=self.api_key, 
-            type=ConnectionType.BASIC_CONNECTION
+            connection_type=ConnectionType.BASIC_CONNECTION,
+            prompt_type=PromptType.ZERO_SHOT_PROMPT
         )
         result_callback(result)
 

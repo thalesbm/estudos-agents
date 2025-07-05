@@ -9,14 +9,6 @@ class Prompt:
         self.question = question
         self.context = context
 
-    def get_default_prompt(self) -> List[BaseMessage]:
-        prompt = [
-            SystemMessage(content="Você é um assistente que responde de forma simples e objetiva"),
-            HumanMessage(content=f"Contexto:\n{self.context}\n\nPergunta: {self.question}\nResponda de forma clara e cite a fonte se possível.")
-        ]
-
-        return prompt
-
     def get_zero_show_prompt(self):
         prompt = [
             SystemMessage(content="Você é um aluno universitario que escreveu um TCC"),

@@ -4,7 +4,7 @@
 - [DONE] Enriquecido com tools externas via function calling, para complementar respostas com dados dinâmicos
 - [DONE] Utiliza uma interface para enviar as perguntas (Streamlit) 
 - [DONE] Utiliza Ragas para avaliar se o RAG realmente responde corretamente (Context Recall, Faithfulness, Answer Relevance)
-- Outros conceitos de prompt Engineering
+- [DOING] Utiliza outros conceitos de prompt Engineering
 - ReAct
 - Adicione memoria
 

@@ -15,34 +15,51 @@ logger = logging.getLogger(__name__)
 
 class MainController:
 
-    def run(question: str, callback):
-        logger.info("Iniciando RAG...")
+    def __init__(self):
+        logger.info("Iniciando setup do RAG...")
 
-        api_key = Key.get_openai_key()
+        self.api_key = Key.get_openai_key()
 
-        # load
-        document = RunnableLambda(Loader.load_document)
+        document = Loader.load_document()
+        chunks = Splitter.split_document(document)
+        self.vector_store = Embedding.embedding_document(chunks, self.api_key)
+
+        logger.info("Setup do RAG finalizado!")
+
+    def run(self, question: str, callback):
+        logger.info(f"Pergunta recebida: {question}")
+
+        # api_key = Key.get_openai_key()
+
+        # # load
+        # document = RunnableLambda(Loader.load_document)
         
-        # split
-        split = RunnableLambda(Splitter.split_document)
+        # # split
+        # split = RunnableLambda(Splitter.split_document)
 
-        # embedding
-        vector_store = RunnableLambda(Embedding.embedding_document).bind(api_key=api_key)
+        # # embedding
+        # embedding = RunnableLambda(Embedding.embedding_document).bind(api_key=api_key)
+
+        # # retrieval
+        # # answers = RunnableLambda(Retrieval.retrieve_similar_documents).bind(question=question)
+        
+        # retrieval_chain = document | split | embedding
+        # vector_store = retrieval_chain.invoke(None)
+        # callback(chunks)
 
         # retrieval
-        answers = RunnableLambda(Retrieval.retrieve_similar_documents).bind(question=question)
-        
-        retrieval_chain = document | split | vector_store | answers
-        chunks = retrieval_chain.invoke(None)
+        chunks = Retrieval.retrieve_similar_documents(
+            vector_store=self.vector_store, 
+            question=question
+        )
         callback(chunks)
 
+        # open ai
         result = SelectServices.run(
             answers=chunks,
             question=question, 
-            api_key=api_key, 
+            api_key=self.api_key, 
             type=ConnectionType.BASIC_CONNECTION
         )
-
-        logger.info("RAG finalizado")
 
         return result

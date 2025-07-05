@@ -16,10 +16,14 @@ def init():
 
     set_view()
 
+    if "controller" not in st.session_state:
+        st.session_state.controller = MainController()
+        logger.info("Controller inicializado!")
+
     question = get_user_input()
     
     if question:
-        result = MainController.run(question, update_view_with_chunks)
+        result = st.session_state.controller.run(question, update_view_with_chunks)
         update_view_with_result(result)
 
 def set_view():

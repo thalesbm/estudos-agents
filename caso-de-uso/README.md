@@ -1,9 +1,9 @@
+Este projeto é um agente RAG construído em Python com LangChain, que:
 
-Agente Inteligente de Atendimento Interno (ou Pessoal) 
-Um assistente conversacional personalizado que consegue:
 
-- Responder perguntas sobre documentos (contratos, políticas internas, PDFs, etc.) usando RAG
-- Executar ações reais (como consultar, calcular, buscar dados) via tools
-- Lidar com múltiplas intenções usando router chains
-- Manter contexto de conversa com memory
-- Ser modular com chains e escalável com agents
+- Utiliza RAG para responder perguntas baseadas em documentos PDF [DONE]
+- Enriquecido com tools externas via function calling, para complementar respostas com dados dinâmicos [DONE]
+- Use uma interface para enviar as perguntas (Streamlit) [DOING]
+- Use Ragas para avaliar se seu RAG realmente responde corretamente (Context Recall, Faithfulness, Answer Relevance)
+- Adicione memoria
+- Outros conceitos de prompt Engineering

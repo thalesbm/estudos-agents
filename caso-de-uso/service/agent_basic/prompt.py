@@ -1,8 +1,6 @@
 from langchain.schema import HumanMessage, SystemMessage, AIMessage
 from langchain_core.messages import BaseMessage
 
-from typing import List
-
 class Prompt:
 
     def __init__(self, question: str, context: str):

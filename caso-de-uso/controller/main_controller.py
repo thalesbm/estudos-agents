@@ -6,8 +6,8 @@ from pipeline.openai import Key
 from pipeline.evaluate import Evaluate
 
 from service.select_service import SelectServices
-from model.connection_type import ConnectionType
-from model.prompt_type import PromptType
+from model.enum.connection_type import ConnectionType
+from model.enum.prompt_type import PromptType
 
 import logging
 

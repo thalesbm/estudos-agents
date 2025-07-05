@@ -1,7 +1,7 @@
 from typing import List
 from model.answer import Answer
-from model.connection_type import ConnectionType
-from model.prompt_type import PromptType
+from model.enum.connection_type import ConnectionType
+from model.enum.prompt_type import PromptType
 
 from service.agent_basic.connection import BaseConnectionToOpenAI
 from service.agent_tools.connection import ConnectionWithToolsToOpenAI

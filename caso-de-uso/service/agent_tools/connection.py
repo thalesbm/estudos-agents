@@ -1,9 +1,8 @@
-from langchain_openai.chat_models import ChatOpenAI
 from langchain_core.utils.function_calling import convert_to_openai_function
 
 from typing import List
 from model.answer import Answer
-from tools.celularesAtualizados import celularesAtualizados
+from tools.celulares_atualizados import celulares_atualizados
 from infra.openai_client import OpenAIClientFactory
 
 from service.agent_tools.prompt import Prompt
@@ -23,7 +22,8 @@ class ConnectionWithToolsToOpenAI:
 
         finalQuestion = f"{question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
 
-        chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools()
+        tools = [convert_to_openai_function(celulares_atualizados)]
+        chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(tools)
 
         context = self.get_context(answers=answers)
 
@@ -60,8 +60,8 @@ class ConnectionWithToolsToOpenAI:
             func_name = result.additional_kwargs["function_call"]["name"]
             logger.info(f"Function Call: {func_name}")
 
-            if func_name == "celularesAtualizados()" or func_name == "celularesAtualizados":
-                valor = celularesAtualizados.invoke({})
+            if func_name == "celulares_atualizados()" or func_name == "celulares_atualizados":
+                valor = celulares_atualizados.invoke({})
                 logger.info(f"Function Result: {valor}")
                 return valor
 

@@ -2,7 +2,7 @@ from langchain.agents import tool
 import time
 
 @tool
-def celularesAtualizados() -> str:
+def celulares_atualizados() -> str:
     """
     Retorna a quantiade de modelos de celulares disponiveis no mercado em 2025
     """

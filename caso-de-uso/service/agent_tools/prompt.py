@@ -7,7 +7,7 @@ class Prompt:
             (
                 "system",
                 "Você é um assistente que universitario que retorna as informações de forma clara e objetiva"
-                "Caso o usuário pergunte sobre os modelos de celulares que são utilizados no brasil, chame a função celularesAtualizados() e retorne o resultado"
+                "Caso o usuário pergunte sobre os modelos de celulares que são utilizados no brasil, chame a função celulares_atualizados() e retorne o resultado"
                 "{context}"
             ),
             (

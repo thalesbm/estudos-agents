@@ -1,6 +1,4 @@
 from langchain_openai.chat_models import ChatOpenAI
-from langchain_core.utils.function_calling import convert_to_openai_function
-from tools.celularesAtualizados import celularesAtualizados
 
 class OpenAIClientFactory:
     
@@ -14,8 +12,7 @@ class OpenAIClientFactory:
             api_key=self.api_key
         )
 
-    def create_client_with_tools(self) -> ChatOpenAI:
-        tools = [convert_to_openai_function(celularesAtualizados)]
+    def create_client_with_tools(self, tools) -> ChatOpenAI:
         return ChatOpenAI(
             model=self.model,
             api_key=self.api_key

@@ -25,7 +25,7 @@ class MainController:
 
         logger.info("Setup do RAG finalizado!")
 
-    def run(self, question: str, callback):
+    def run(self, question: str, chunks_callback, result_callback):
         logger.info(f"Pergunta recebida: {question}")
 
         # retrieval
@@ -33,7 +33,7 @@ class MainController:
             vector_store=self.vector_store, 
             question=question
         )
-        callback(chunks)
+        chunks_callback(chunks)
 
         # open ai
         result = SelectServices.run(
@@ -42,12 +42,13 @@ class MainController:
             api_key=self.api_key, 
             type=ConnectionType.BASIC_CONNECTION
         )
+        result_callback(result)
 
         # evaluate
-        # evaluate = Evaluate(
-        #     answer=result,
-        #     chunks=chunks, 
-        #     question=question
-        # ).evaluate_answer()
+        evaluate = Evaluate(
+            answer=result,
+            chunks=chunks, 
+            question=question
+        ).evaluate_answer()
 
-        return result
+        return evaluate

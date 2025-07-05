@@ -6,6 +6,7 @@ from typing import List
 
 import shutil
 import logging
+import os
 
 logger = logging.getLogger(__name__)
 
@@ -22,7 +23,8 @@ class Embedding:
 
         path = "./files/db"
 
-        shutil.rmtree(path, ignore_errors=True)
+        if os.path.exists(path):
+            shutil.rmtree(path, ignore_errors=True)
 
         vector_store = Chroma.from_documents(
             documents=chunks,

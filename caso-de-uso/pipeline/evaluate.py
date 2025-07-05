@@ -21,26 +21,21 @@ class Evaluate:
         logger.info("Iniciando validação da resposta...")
 
         result = evaluate(
-            self.set_dataset,
+            self.set_dataset(),
             metrics=[answer_relevancy, faithfulness, context_recall]
         )
 
+        logger.info(result)
         logger.info("Finalizado validação da resposta")
 
         return result
 
     def set_dataset(self):
         data = Dataset.from_dict({
-            "question": [
-                {self.question}
-            ],
-            "answer": [
-                {self.answer}
-            ],
-            "contexts": [
-                ["Texto chunk1", "Texto chunk2"],
-                ["Texto chunk3", "Texto chunk4"]
-            ]
+            "question": [self.question],
+            "answer": [self.answer],
+            "reference": [self.answer], 
+            "contexts": [[chunk.content for chunk in self.chunks]],
         })
 
         return data

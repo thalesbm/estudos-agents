@@ -1,6 +1,6 @@
 from tools.celulares_atualizados import celulares_atualizados
 from infra.openai_client import OpenAIClientFactory
-
+from model.enum.prompt_type import PromptType
 from tools.celulares_atualizados import ToolManager
 from service.agent_tools.prompt import Prompt
 
@@ -10,17 +10,22 @@ logger = logging.getLogger(__name__)
 
 class ConnectionWithToolsToOpenAI:
 
-    def connect(self, context: str, question: str, api_key: str) -> str:
+    def __init__(self, context: str, question: str, prompt_type: PromptType):
+        self.context = context
+        self.question = question
+        self.prompt_type = prompt_type
+
+    def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI...")
 
-        finalQuestion = f"{question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
+        finalQuestion = f"{self.question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
 
         chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(ToolManager.get_tools())
 
         prompt = Prompt.get_entry_prompt()
         chain = prompt | chat
 
-        result = chain.invoke({'query': finalQuestion, "context": context})
+        result = chain.invoke({'query': finalQuestion, "context": self.context})
 
         value = self.configure_function_call(result)
 

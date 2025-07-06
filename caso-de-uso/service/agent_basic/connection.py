@@ -40,5 +40,8 @@ class BaseConnectionToOpenAI:
 
         elif self.prompt_type == PromptType.FEW_SHOT_PROMPT:
             prompt_text = prompt.get_few_show_prompt()
+
+        elif self.prompt_type == PromptType.CHAIN_OF_THOUGHT:
+            ""
         
         return prompt_text

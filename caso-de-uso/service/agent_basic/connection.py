@@ -43,5 +43,17 @@ class BaseConnectionToOpenAI:
 
         elif self.prompt_type == PromptType.CHAIN_OF_THOUGHT:
             prompt_text = prompt.get_chain_of_thought()
+
+        elif self.prompt_type == PromptType.STYLE_SPECIFIC_PROMPTING:
+            prompt_text = prompt.get_style_specific_prompting()
+
+        elif self.prompt_type == PromptType.LENGHT_LIMITATION_PROMPTING:
+            prompt_text = prompt.get_lenght_limitation_prompting()
+
+        elif self.prompt_type == PromptType.STEP_BY_STEP_INSTRUCTION_PROMPTING:
+            prompt_text = prompt.step_by_step_instruction_prompting()
+
+        elif self.prompt_type == PromptType.DEFINITION_EXEMPLIFICATION:
+            prompt_text = prompt.get_definition_exemplification()
         
         return prompt_text

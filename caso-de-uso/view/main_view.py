@@ -23,9 +23,10 @@ class MainView():
 
             prompt_type_option = st.selectbox(
                 "Prompt Tyope",
-                ["ZERO_SHOT_PROMPT", "FEW_SHOT_PROMPT", "CHAIN_OF_THOUGHT", "CONTEXTUAL_PROMPTING", 
-                 "STYLE_SPECIFIC_PROMPTING", "LENGHT_LIMITATION_PROMPTING", "STEP_BY_STEP_INSTRUCTION_PROMPTING", 
-                 "DEFINITION_EXEMPLIFICATION"]
+                [   
+                    "ZERO_SHOT_PROMPT", "FEW_SHOT_PROMPT", "CHAIN_OF_THOUGHT", "DEFINITION_EXEMPLIFICATION",
+                    "STYLE_SPECIFIC_PROMPTING", "LENGHT_LIMITATION_PROMPTING", "STEP_BY_STEP_INSTRUCTION_PROMPTING"
+                ]
             )
 
             submit = st.form_submit_button(label="Enviar")

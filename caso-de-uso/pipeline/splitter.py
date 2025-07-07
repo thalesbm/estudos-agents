@@ -16,9 +16,9 @@ class Splitter:
             return []
 
         text_splitter = RecursiveCharacterTextSplitter(
-            chunk_size=500,
-            chunk_overlap=50,
-            separators=["\n\n", "\n", ".", " ", ""]
+            chunk_size=1000,
+            chunk_overlap=150,
+            separators=["\n\n", "\n", ". ", "? ", "! ", "; ", ": ", " "]
         )
 
         chunks = text_splitter.split_documents(documents)

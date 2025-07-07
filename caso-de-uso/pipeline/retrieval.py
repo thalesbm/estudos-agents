@@ -13,7 +13,7 @@ class Retrieval:
     def retrieve_similar_documents(vector_store: Chroma, question: str) -> List[Answer]: 
         logger.info("Iniciando retrieval do documento...")
 
-        docs = vector_store.similarity_search_with_score(question, k=3)
+        docs = vector_store.max_marginal_relevance_search(question, k=5)
 
         if not docs:
             logger.warning("Nenhum documento similar encontrado para a pergunta.")

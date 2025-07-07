@@ -4,8 +4,9 @@
 - [DONE] Utiliza tools externas via function calling para complementar respostas com dados dinâmicos
 - [DONE] Utiliza uma interface para enviar as perguntas (Streamlit) 
 - [DONE] Utiliza Ragas para avaliar se o RAG realmente responde corretamente (Context Recall, Faithfulness, Answer Relevance)
-- [DOING] Utiliza outros conceitos de prompt Engineering
+- [DONE] Utiliza outros conceitos de prompt Engineering
 - ReAct
+- CoT
 - Adicione memoria
 
 #### Comandos:
@@ -23,4 +24,4 @@ python3 ./caso-de-uso/app.py
 
 #### Problemas:
 
-- A geração de respostas com base no context não está 100% correta
+- [DONE] A geração de respostas com base no context não está 100% correta

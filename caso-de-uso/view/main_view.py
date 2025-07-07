@@ -22,12 +22,13 @@ class MainView():
             )
 
             prompt_type_option = st.selectbox(
-                "Prompt Tyope",
+                "Prompt Type",
                 [   
                     "ZERO_SHOT_PROMPT", "FEW_SHOT_PROMPT", "CHAIN_OF_THOUGHT", "DEFINITION_EXEMPLIFICATION",
                     "STYLE_SPECIFIC_PROMPTING", "LENGHT_LIMITATION_PROMPTING", "STEP_BY_STEP_INSTRUCTION_PROMPTING"
                 ]
             )
+            st.write("PromptType funcionando apenas com ConnectionType: conexao-simples-ll")
 
             submit = st.form_submit_button(label="Enviar")
 

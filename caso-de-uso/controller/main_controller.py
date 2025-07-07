@@ -6,7 +6,8 @@ from pipeline.openai import Key
 from pipeline.evaluate import Evaluate
 
 from service.select_service import SelectServices
-from model.type import ConnectionType
+from model.enum.connection_type import ConnectionType
+from model.enum.prompt_type import PromptType
 
 import logging
 
@@ -25,7 +26,14 @@ class MainController:
 
         logger.info("Setup do RAG finalizado!")
 
-    def run(self, question: str, chunks_callback, result_callback):
+    def run(
+            self, 
+            connection_type_option: str, 
+            promopt_type_option: str,
+            question: str, 
+            chunks_callback, 
+            result_callback
+        ):
         logger.info(f"Pergunta recebida: {question}")
 
         # retrieval
@@ -40,7 +48,8 @@ class MainController:
             answers=chunks,
             question=question, 
             api_key=self.api_key, 
-            type=ConnectionType.BASIC_CONNECTION
+            connection_type=ConnectionType(connection_type_option),
+            prompt_type=PromptType(promopt_type_option)
         )
         result_callback(result)
 

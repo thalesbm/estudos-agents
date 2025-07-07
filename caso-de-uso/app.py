@@ -11,16 +11,17 @@ def init():
 
     logger.info("Bem vindo ao melhor mini agente do mundo")
 
-    MainView.set_view()
-
+    MainView.set_view(get_form)
+    
+def get_form(question: str, connection_type_option: str, promopt_type_option: str):
     if "controller" not in st.session_state:
         st.session_state.controller = MainController()
         logger.info("Controller inicializado!")
 
-    question = MainView.get_user_input()
-    
     if question:
         evaluate = st.session_state.controller.run(
+            connection_type_option=connection_type_option,
+            promopt_type_option=promopt_type_option,
             question=question, 
             chunks_callback=MainView.update_view_with_chunks,
             result_callback=MainView.update_view_with_result

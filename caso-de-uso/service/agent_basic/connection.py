@@ -42,6 +42,6 @@ class BaseConnectionToOpenAI:
             prompt_text = prompt.get_few_show_prompt()
 
         elif self.prompt_type == PromptType.CHAIN_OF_THOUGHT:
-            ""
+            prompt_text = prompt.get_chain_of_thought()
         
         return prompt_text

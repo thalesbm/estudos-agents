@@ -9,13 +9,32 @@ logger = logging.getLogger(__name__)
 
 class MainView():
 
-    def set_view():
+    def set_view(callback):
         logging.info("Configurando View")
-        st.write("")
+        
         st.header("Podem perguntar sobre o meu TCC")
+        
+        with st.form(key="meu_formulario"):
+            question = st.text_input("Digite sua pergunta", value = "qual foi o aplicativo escolhido para o projeto?")
+            connection_type_option = st.selectbox(
+                "Connection Type",
+                ["conexao-simples-llm", "conexao-com-tool"]
+            )
+
+            prompt_type_option = st.selectbox(
+                "Prompt Tyope",
+                ["ZERO_SHOT_PROMPT", "FEW_SHOT_PROMPT", "CHAIN_OF_THOUGHT", "CONTEXTUAL_PROMPTING", 
+                 "STYLE_SPECIFIC_PROMPTING", "LENGHT_LIMITATION_PROMPTING", "STEP_BY_STEP_INSTRUCTION_PROMPTING", 
+                 "DEFINITION_EXEMPLIFICATION"]
+            )
+
+            submit = st.form_submit_button(label="Enviar")
+
+            if submit:
+                callback(question, connection_type_option, prompt_type_option)
 
     def get_user_input() -> str:
-        return st.text_input("Digite sua pergunta", value = "qual foi o aplicativo escolhido para o projeto?")
+        return st.text_input("Digite sua pergunta")
 
     def update_view_with_chunks(answers: List[Answer]):
         st.subheader("Chunks recuperados:")

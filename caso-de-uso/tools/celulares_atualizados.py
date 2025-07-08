@@ -12,7 +12,8 @@ class ToolManager:
 @tool
 def celulares_atualizados() -> str:
     """
-    Retorna a quantiade de modelos de celulares disponiveis no mercado em 2025
+    Retorna a quantidade de modelos de celulares disponíveis no mercado em 2025.
+    Use essa função sempre que o usuário perguntar sobre celulares compatíveis ou disponíveis.
     """
     time.sleep(3)
     return "20.000"

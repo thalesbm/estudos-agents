@@ -9,12 +9,11 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-class ConnectionWithToolsToOpenAI:
+class ConnectionWithReactToOpenAI:
 
     def __init__(self, context: str, question: str):
         self.context = context
         self.question = question
-    
 
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI...")

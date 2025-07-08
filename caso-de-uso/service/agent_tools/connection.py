@@ -1,6 +1,5 @@
 from tools.celulares_atualizados import celulares_atualizados
 from infra.openai_client import OpenAIClientFactory
-from model.enum.prompt_type import PromptType
 from tools.celulares_atualizados import ToolManager
 from service.agent_tools.prompt import Prompt
 
@@ -10,10 +9,9 @@ logger = logging.getLogger(__name__)
 
 class ConnectionWithToolsToOpenAI:
 
-    def __init__(self, context: str, question: str, prompt_type: PromptType):
+    def __init__(self, context: str, question: str):
         self.context = context
         self.question = question
-        self.prompt_type = prompt_type
 
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI...")

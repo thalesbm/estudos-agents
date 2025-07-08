@@ -5,6 +5,7 @@ from model.enum.prompt_type import PromptType
 
 from service.agent_basic.connection import BaseConnectionToOpenAI
 from service.agent_tools.connection import ConnectionWithToolsToOpenAI
+from service.agent_react.connection import ConnectionWithReactToOpenAI
 
 import logging
 logger = logging.getLogger(__name__)
@@ -38,6 +39,12 @@ class SelectServices:
 
         elif type == ConnectionType.CONNECTION_WITH_TOOLS:
             result = ConnectionWithToolsToOpenAI(
+                context=get_context(answers), 
+                question=question, 
+            ).connect(api_key=api_key)
+
+        elif type == ConnectionType.CONNECTION_WITH_TOOLS_AND_REACT:
+            result = ConnectionWithReactToOpenAI(
                 context=get_context(answers), 
                 question=question, 
             ).connect(api_key=api_key)

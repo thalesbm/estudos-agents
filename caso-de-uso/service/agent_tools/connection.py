@@ -16,14 +16,12 @@ class ConnectionWithToolsToOpenAI:
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI...")
 
-        finalQuestion = f"{self.question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
-
         chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(ToolManager.get_tools())
 
         prompt = Prompt.get_entry_prompt()
         chain = prompt | chat
 
-        result = chain.invoke({'query': finalQuestion, "context": self.context})
+        result = chain.invoke({'query': self.question, "context": self.context})
 
         value = self.configure_function_call(result)
 

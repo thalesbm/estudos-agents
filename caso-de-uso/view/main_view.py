@@ -16,7 +16,7 @@ class MainView():
         
         connection_type_option = st.selectbox(
             "Connection Type",
-            ["conexao-simples-llm", "conexao-com-tool"]
+            ["conexao-simples-llm", "conexao-com-tool", "conexao-com-tool-react"]
         )
 
         prompt_type_option = None
@@ -31,16 +31,13 @@ class MainView():
                 ]
             )
 
-        if connection_type_option == "conexao-com-tool":
-            react_enable = st.checkbox("Habilitar reAct")
-
         with st.form(key="meu_formulario"):
             question = st.text_input("Digite sua pergunta", value = "qual foi o aplicativo escolhido para o projeto?")
 
             submit = st.form_submit_button(label="Enviar")
 
             if submit:
-                callback(question, connection_type_option, prompt_type_option, react_enable)
+                callback(question, connection_type_option, prompt_type_option)
 
     def update_view_with_chunks(answers: List[Answer]):
         st.subheader("Chunks recuperados:")

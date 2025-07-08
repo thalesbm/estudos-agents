@@ -17,7 +17,6 @@ def get_form(
         question: str, 
         connection_type_option: str, 
         prompt_type_option: str,
-        react_enable: bool
     ):
 
     if "controller" not in st.session_state:

@@ -23,15 +23,15 @@ class ConnectionWithToolsToOpenAI:
 
         chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(ToolManager.get_tools())
 
+        prompt = Prompt.get_react_prompt()
         tools = ToolManager.get_tools()
         agent = create_openai_tools_agent(chat, tools, prompt)
         executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
-        prompt = Prompt.get_react_prompt()
-        chain = prompt | executor
+        # chain = prompt | executor
 
         # result = chain.invoke({'query': finalQuestion, "context": self.context})
-        result = chain.invoke({"query": finalQuestion, "context": self.context})
+        result = executor.invoke({"query": finalQuestion, "context": self.context})
 
         return result
 

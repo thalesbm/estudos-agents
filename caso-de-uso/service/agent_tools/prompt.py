@@ -46,15 +46,17 @@ class Prompt:
                 "Finalize apenas quando tiver uma resposta completa."
                 "Caso o usuário pergunte sobre os modelos de celulares que são utilizados no brasil, chame a função celulares_atualizados() e retorne o resultado"
                 "{context}"
+                "{agent_scratchpad}"
             ),
             (
                 "user",
                 "{query}"
             )
-            (
-                "human",
-                "Pergunta: {query} Responda de forma clara e cite a fonte se possível."
-            )
+            # ,
+            # (
+            #     "human",
+            #     "Pergunta: {query} Responda de forma clara e cite a fonte se possível."
+            # )
         ])
 
         return prompt

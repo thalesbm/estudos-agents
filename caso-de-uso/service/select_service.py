@@ -28,7 +28,7 @@ class SelectServices:
         result = ""
 
         type = ConnectionType(connection_type)
-        print(type)
+
         if type == ConnectionType.BASIC_CONNECTION:
             result = BaseConnectionToOpenAI(
                 context=get_context(answers), 

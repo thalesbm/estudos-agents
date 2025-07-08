@@ -13,7 +13,13 @@ def init():
 
     MainView.set_view(get_form)
     
-def get_form(question: str, connection_type_option: str, promopt_type_option: str):
+def get_form(
+        question: str, 
+        connection_type_option: str, 
+        prompt_type_option: str,
+        react_enable: bool
+    ):
+
     if "controller" not in st.session_state:
         st.session_state.controller = MainController()
         logger.info("Controller inicializado!")
@@ -21,7 +27,7 @@ def get_form(question: str, connection_type_option: str, promopt_type_option: st
     if question:
         evaluate = st.session_state.controller.run(
             connection_type_option=connection_type_option,
-            promopt_type_option=promopt_type_option,
+            prompt_type_option=prompt_type_option,
             question=question, 
             chunks_callback=MainView.update_view_with_chunks,
             result_callback=MainView.update_view_with_result

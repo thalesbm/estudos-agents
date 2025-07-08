@@ -1,6 +1,7 @@
 from tools.celulares_atualizados import celulares_atualizados
 from infra.openai_client import OpenAIClientFactory
 from model.enum.prompt_type import PromptType
+from langchain.agents import AgentExecutor, create_openai_tools_agent
 from tools.celulares_atualizados import ToolManager
 from service.agent_tools.prompt import Prompt
 
@@ -10,10 +11,10 @@ logger = logging.getLogger(__name__)
 
 class ConnectionWithToolsToOpenAI:
 
-    def __init__(self, context: str, question: str, prompt_type: PromptType):
+    def __init__(self, context: str, question: str):
         self.context = context
         self.question = question
-        self.prompt_type = prompt_type
+    
 
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI...")
@@ -22,27 +23,34 @@ class ConnectionWithToolsToOpenAI:
 
         chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(ToolManager.get_tools())
 
-        prompt = Prompt.get_entry_prompt()
-        chain = prompt | chat
+        tools = ToolManager.get_tools()
+        agent = create_openai_tools_agent(chat, tools, prompt)
+        executor = AgentExecutor(agent=agent, tools=tools, verbose=True)
 
-        result = chain.invoke({'query': finalQuestion, "context": self.context})
+        prompt = Prompt.get_react_prompt()
+        chain = prompt | executor
 
-        value = self.configure_function_call(result)
+        # result = chain.invoke({'query': finalQuestion, "context": self.context})
+        result = chain.invoke({"query": finalQuestion, "context": self.context})
 
-        follow_up_chain = Prompt.get_exit_prompt() | chat
+        return result
 
-        follow_up_result = follow_up_chain.invoke({
-            "resposta": result.content,
-            "valor": value
-        })
+        # value = self.configure_function_call(result)
 
-        logger.info("===================================")
-        logger.info(f"OpenAI: {follow_up_result.content}")
-        logger.info("===================================")
+        # follow_up_chain = Prompt.get_exit_prompt() | chat
+
+        # follow_up_result = follow_up_chain.invoke({
+        #     "resposta": result.content,
+        #     "valor": value
+        # })
+
+        # logger.info("===================================")
+        # logger.info(f"OpenAI: {follow_up_result.content}")
+        # logger.info("===================================")
 
         logger.info("Finalizando conexão com a open AI")
 
-        return follow_up_result.content
+        # return follow_up_result.content
 
     def configure_function_call(self, result) -> str:
         if result.additional_kwargs.get("function_call"):

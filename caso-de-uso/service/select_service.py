@@ -15,9 +15,11 @@ class SelectServices:
         answers: List[Answer], 
         question: str, 
         api_key: str, 
-        connection_type: ConnectionType,
-        prompt_type: PromptType
+        connection_type: str,
+        prompt_type: str
     ):
+
+        logger.info("Inicializando SelectServices")
 
         if not answers:
             logger.warning("Nenhum contexto fornecido. Verifique se a lista de answers está vazia.")
@@ -25,19 +27,22 @@ class SelectServices:
 
         result = ""
 
-        if connection_type == ConnectionType.BASIC_CONNECTION:
+        type = ConnectionType(connection_type)
+        print(type)
+        if type == ConnectionType.BASIC_CONNECTION:
             result = BaseConnectionToOpenAI(
                 context=get_context(answers), 
                 question=question, 
-                prompt_type=prompt_type
+                prompt_type=PromptType(prompt_type)
             ).connect(api_key=api_key)
 
-        elif connection_type == ConnectionType.CONNECTION_WITH_TOOLS:
+        elif type == ConnectionType.CONNECTION_WITH_TOOLS:
             result = ConnectionWithToolsToOpenAI(
                 context=get_context(answers), 
                 question=question, 
-                prompt_type=prompt_type
             ).connect(api_key=api_key)
+
+        logger.info("Finalizado SelectServices")    
 
         return result
         

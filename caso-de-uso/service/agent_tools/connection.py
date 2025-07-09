@@ -1,6 +1,6 @@
-from tools.celulares_atualizados import celulares_atualizados
 from infra.openai_client import OpenAIClientFactory
-from tools.celulares_atualizados import ToolManager
+from tools.celulares_atualizados import get_tools
+from tools.celulares_atualizados import celulares_atualizados
 from service.agent_tools.prompt import Prompt
 
 import logging
@@ -16,7 +16,7 @@ class ConnectionWithToolsToOpenAI:
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI...")
 
-        chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(ToolManager.get_tools())
+        chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(get_tools())
 
         prompt = Prompt.get_entry_prompt()
         chain = prompt | chat

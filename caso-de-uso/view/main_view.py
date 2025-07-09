@@ -20,7 +20,7 @@ class MainView():
         )
 
         prompt_type_option = None
-        react_enable = None
+        question = None
 
         if connection_type_option == "conexao-simples-llm":
             prompt_type_option = st.selectbox(
@@ -30,10 +30,19 @@ class MainView():
                     "STYLE_SPECIFIC_PROMPTING", "LENGHT_LIMITATION_PROMPTING", "STEP_BY_STEP_INSTRUCTION_PROMPTING"
                 ]
             )
+            question = st.text_input("Digite sua pergunta", 
+                                     value = "qual foi o aplicativo escolhido para o projeto?")
+        
+        elif connection_type_option == "conexao-com-tool":
+            question = st.text_input("Digite sua pergunta", 
+                                     value = "quantos aparelhos celulares esse aplicativo consegue ser instalado?")
+            
+        elif connection_type_option == "conexao-com-tool-react":
+            question = st.text_input("Digite sua pergunta", 
+                                     value = "quantos aparelhos celulares esse aplicativo consegue ser instalado?")    
+        
 
         with st.form(key="meu_formulario"):
-            question = st.text_input("Digite sua pergunta", value = "qual foi o aplicativo escolhido para o projeto?")
-
             submit = st.form_submit_button(label="Enviar")
 
             if submit:

@@ -14,6 +14,7 @@ class Prompt:
                 "NUNCA tente responder com conhecimento próprio, só use a função celulares_atualizados(). "
                 "Sempre priorize o uso de tools quando disponível. "
                 "Contexto: {context}\n"
+                "{agent_scratchpad}"
             ),
             (   
                 "user", 

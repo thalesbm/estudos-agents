@@ -3,11 +3,11 @@ from langchain_core.utils.function_calling import convert_to_openai_function
 from langchain.agents import tool
 import time
 
-class ToolManager:
+def get_tools():
+    return [convert_to_openai_function(celulares_atualizados)]
 
-    @staticmethod
-    def get_tools():
-        return [convert_to_openai_function(celulares_atualizados)]
+def get_simple_tools():
+    return [celulares_atualizados]
 
 @tool
 def celulares_atualizados() -> str:

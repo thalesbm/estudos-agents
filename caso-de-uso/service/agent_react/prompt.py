@@ -2,15 +2,6 @@ from langchain.prompts import ChatPromptTemplate
 
 class Prompt:
 
-#     """Você é um assistente universitário.
-# Sempre explique seu raciocínio (Thought), execute uma ação (Action), observe o resultado (Observation) 
-
-# Quando usar uma ferramenta (tool), utilize a observação para compor a resposta final.
-# Se a resposta da ferramenta resolve a dúvida do usuário, não chame a tool novamente — apenas finalize com Final Answer.
-# Nunca repita chamadas desnecessárias.
-# Contexto: {context}
-# {agent_scratchpad}"""
-
     def get_react_prompt():
         prompt = ChatPromptTemplate.from_messages([
             (
@@ -21,10 +12,6 @@ class Prompt:
                 "Quando usar uma ferramenta (tool), utilize a observação (Observation) para compor a resposta final. "
                 "Se a ferramenta já respondeu à pergunta, escreva 'Final Answer:' seguido da resposta, e NÃO chame mais nenhuma tool. "
                 "Nunca repita chamadas desnecessárias. "
-                # "Se o usuário perguntar sobre a quantidade de celulares em que o aplicativo pode rodar, "
-                # "OBRIGATORIAMENTE chame a função celulares_atualizados(). "
-                # "NUNCA tente responder com conhecimento próprio, só use a função celulares_atualizados(). "
-                # "Sempre priorize o uso de tools quando disponível. "
                 "Contexto: {context}\n"
                 "{agent_scratchpad}"
             ),

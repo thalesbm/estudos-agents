@@ -2,22 +2,42 @@ from langchain.prompts import ChatPromptTemplate
 
 class Prompt:
 
+#     """Você é um assistente universitário.
+# Sempre explique seu raciocínio (Thought), execute uma ação (Action), observe o resultado (Observation) 
+
+# Quando usar uma ferramenta (tool), utilize a observação para compor a resposta final.
+# Se a resposta da ferramenta resolve a dúvida do usuário, não chame a tool novamente — apenas finalize com Final Answer.
+# Nunca repita chamadas desnecessárias.
+# Contexto: {context}
+# {agent_scratchpad}"""
+
     def get_react_prompt():
         prompt = ChatPromptTemplate.from_messages([
             (
                 "system",
                 "Você é um assistente que universitario que retorna as informações de forma clara e objetiva"
-                "Sempre explique seu raciocínio (Thought), execute uma ação (Action) e observe o resultado (Observation). "
-                "Finalize apenas quando tiver uma resposta completa."
-                "Se o usuário perguntar sobre a quantidade de celulares em que o aplicativo pode rodar, "
-                "OBRIGATORIAMENTE chame a função celulares_atualizados(). "
-                "NUNCA tente responder com conhecimento próprio, só use a função celulares_atualizados(). "
-                "Sempre priorize o uso de tools quando disponível. "
+                "Sempre explique seu raciocínio (Thought), execute uma ação (Action) e observe o resultado (Observation) e, quando já tiver a resposta final, escreva exatamente:"
+                "Final Answer: <sua resposta aqui> "
                 "Quando usar uma ferramenta (tool), utilize a observação (Observation) para compor a resposta final. "
                 "Se a ferramenta já respondeu à pergunta, escreva 'Final Answer:' seguido da resposta, e NÃO chame mais nenhuma tool. "
                 "Nunca repita chamadas desnecessárias. "
+                # "Se o usuário perguntar sobre a quantidade de celulares em que o aplicativo pode rodar, "
+                # "OBRIGATORIAMENTE chame a função celulares_atualizados(). "
+                # "NUNCA tente responder com conhecimento próprio, só use a função celulares_atualizados(). "
+                # "Sempre priorize o uso de tools quando disponível. "
                 "Contexto: {context}\n"
                 "{agent_scratchpad}"
+            ),
+            (
+                "user", 
+                "Quantos celulares o aplicativo pode rodar em 2025?"),
+            (
+                "assistant",
+                "Thought: Preciso consultar a função celulares_atualizados para obter a quantidade de celulares.\n"
+                "Action: celulares_atualizados()\n"
+                "Observation: 20.000\n"
+                "Thought: Já tenho a informação necessária.\n"
+                "Final Answer: O aplicativo pode rodar em 20.000 celulares diferentes em 2025."
             ),
             (   
                 "user", 

@@ -12,19 +12,20 @@ class MainView():
     def set_view(callback):
         logging.info("Configurando View")
         
-        st.header("Escolha as configurações abaixo e faça a sua pergunta")
+        st.header("📚 Perguntas sobre o seu TCC")
+        st.subheader("Escolha as configurações abaixo e faça a sua pergunta")
         
-        connection_type_option = st.selectbox(
-            "Connection Type",
-            ["conexao-simples-llm", "conexao-com-tool", "conexao-com-tool-react"]
+        connection_type_option = st.selectbox("🔌 Tipo de Conexão",
+            [
+                "conexao-simples-llm", "conexao-com-tool", "conexao-com-tool-react"
+            ]
         )
 
         prompt_type_option = None
         question = None
 
         if connection_type_option == "conexao-simples-llm":
-            prompt_type_option = st.selectbox(
-                "Prompt Type",
+            prompt_type_option = st.selectbox("🎯 Tipo de Prompt",
                 [   
                     "ZERO_SHOT_PROMPT", "FEW_SHOT_PROMPT", "CHAIN_OF_THOUGHT", "DEFINITION_EXEMPLIFICATION",
                     "STYLE_SPECIFIC_PROMPTING", "LENGHT_LIMITATION_PROMPTING", "STEP_BY_STEP_INSTRUCTION_PROMPTING"
@@ -33,20 +34,15 @@ class MainView():
             question = st.text_input("Digite sua pergunta", 
                                      value = "qual foi o aplicativo escolhido para o projeto?")
         
-        elif connection_type_option == "conexao-com-tool":
-            question = st.text_input("Digite sua pergunta", 
-                                     value = "quantos aparelhos celulares esse aplicativo consegue ser instalado?")
-            
-        elif connection_type_option == "conexao-com-tool-react":
-            question = st.text_input("Digite sua pergunta", 
-                                     value = "quantos aparelhos celulares esse aplicativo consegue ser instalado?")    
-        
+        elif connection_type_option in ["conexao-com-tool", "conexao-com-tool-react"]:
+            question = st.text_input("✏️ Faça sua pergunta", 
+                                     value = "Quantos celulares o app pode rodar em 2025?")  
 
         with st.form(key="meu_formulario"):
             submit = st.form_submit_button(label="Enviar")
 
-            if submit:
-                callback(question, connection_type_option, prompt_type_option)
+        if submit:
+            callback(question, connection_type_option, prompt_type_option)
 
     def update_view_with_chunks(answers: List[Answer]):
         st.subheader("Chunks recuperados:")

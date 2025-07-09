@@ -6,16 +6,42 @@ class Prompt:
         prompt = ChatPromptTemplate.from_messages([
             (
                 "system",
-                "Você é um assistente que universitario que retorna as informações de forma clara e objetiva"
-                "Caso o usuário pergunte sobre os modelos de celulares que são utilizados no brasil, chame a função celulares_atualizados() e retorne o resultado"
-                "{context}"
+                "Você é um assistente universitário. Responda com bastante detalhes"
+                "Se o usuário perguntar sobre a quantidade de celulares em que o aplicativo pode rodar, "
+                "OBRIGATORIAMENTE chame a função celulares_atualizados(). "
+                "NUNCA tente responder com conhecimento próprio, só use a função celulares_atualizados(). "
+                "Sempre priorize o uso de tools quando disponível. "
+                "Contexto: {context}\n"
+            ),
+            (   
+                "user", 
+                "Qual foi o objetivo do seu TCC?"
             ),
             (
-                "human",
-                "Pergunta: {query} Responda de forma clara e cite a fonte se possível."
+                "assistant", 
+                "O objetivo do meu TCC foi desenvolver um app para ensino de física."
+            ),
+            (
+                "user", 
+                "Que plataforma foi usada para o desenvolvimento?"
+            ),
+            (
+                "assistant", 
+                "Utilizei a plataforma Intel XDK."
+            ),
+            (
+                "user", 
+                "Qual foi o ano que o projeto foi apresentado?"
+            ),
+            (
+                "assistant", 
+                "O ano foi 2014."
+            ),
+            (
+                "user", 
+                "Pergunta: \n{query}"
             )
         ])
-
         return prompt
 
     def get_exit_prompt() -> str:
@@ -28,7 +54,7 @@ class Prompt:
                 "Apenas escreva o resultado como se fosse informação que você mesmo sabe."
             ),
             (
-                "human",
+                "user",
                 "Texto original: {resposta}\n"
                 "Valor da função: {valor}\n"
                 "Reescreva tudo de forma clara e natural, sem mencionar funções."

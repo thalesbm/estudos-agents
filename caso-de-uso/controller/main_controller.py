@@ -29,7 +29,7 @@ class MainController:
     def run(
             self, 
             connection_type_option: str, 
-            promopt_type_option: str,
+            prompt_type_option: str,
             question: str, 
             chunks_callback, 
             result_callback
@@ -44,12 +44,13 @@ class MainController:
         chunks_callback(chunks)
 
         # open ai
-        result = SelectServices.run(
+        result = SelectServices(
             answers=chunks,
             question=question, 
-            api_key=self.api_key, 
-            connection_type=ConnectionType(connection_type_option),
-            prompt_type=PromptType(promopt_type_option)
+            api_key=self.api_key,
+        ).run(
+            connection_type=connection_type_option,
+            prompt_type=prompt_type_option
         )
         result_callback(result)
 

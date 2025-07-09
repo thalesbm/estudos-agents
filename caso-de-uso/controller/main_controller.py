@@ -44,10 +44,11 @@ class MainController:
         chunks_callback(chunks)
 
         # open ai
-        result = SelectServices.run(
+        result = SelectServices(
             answers=chunks,
             question=question, 
-            api_key=self.api_key, 
+            api_key=self.api_key,
+        ).run(
             connection_type=connection_type_option,
             prompt_type=prompt_type_option
         )

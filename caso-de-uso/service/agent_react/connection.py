@@ -1,9 +1,8 @@
 from tools.celulares_atualizados import celulares_atualizados
 from infra.openai_client import OpenAIClientFactory
-from model.enum.prompt_type import PromptType
 from langchain.agents import AgentExecutor, create_openai_tools_agent
 from tools.celulares_atualizados import ToolManager
-from service.agent_tools.prompt import Prompt
+from service.agent_react.prompt import Prompt
 
 import logging
 
@@ -18,8 +17,6 @@ class ConnectionWithReactToOpenAI:
     def connect(self, api_key: str) -> str:
         logger.info("Iniciando conexão com a open AI...")
 
-        finalQuestion = f"{self.question} e qual a quantidade de celulares disponiveis no mercado que o aplicativo pode ser executado?"
-
         chat = OpenAIClientFactory(api_key=api_key).create_client_with_tools(ToolManager.get_tools())
 
         prompt = Prompt.get_react_prompt()
@@ -29,10 +26,15 @@ class ConnectionWithReactToOpenAI:
 
         # chain = prompt | executor
 
-        # result = chain.invoke({'query': finalQuestion, "context": self.context})
-        result = executor.invoke({"query": finalQuestion, "context": self.context})
+        result = executor.invoke({"query": self.question, "context": self.context})
 
-        return result
+        logger.info("===================================")
+        logger.info(f"OpenAI: {result.content}")
+        logger.info("===================================")
+
+        logger.info("Finalizando conexão com a open AI")
+
+        return result.content
 
         # value = self.configure_function_call(result)
 
@@ -47,7 +49,7 @@ class ConnectionWithReactToOpenAI:
         # logger.info(f"OpenAI: {follow_up_result.content}")
         # logger.info("===================================")
 
-        logger.info("Finalizando conexão com a open AI")
+        # logger.info("Finalizando conexão com a open AI")
 
         # return follow_up_result.content
 

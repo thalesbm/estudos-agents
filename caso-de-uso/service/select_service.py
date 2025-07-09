@@ -12,17 +12,20 @@ logger = logging.getLogger(__name__)
 
 class SelectServices:
 
+    def __init__(self, answers: List[Answer], question: str, api_key: str):
+        self.answers = answers
+        self.question = question
+        self.api_key = api_key
+
     def run(
-        answers: List[Answer], 
-        question: str, 
-        api_key: str, 
+        self,
         connection_type: str,
         prompt_type: str
     ):
 
         logger.info("Inicializando SelectServices")
 
-        if not answers:
+        if not self.answers:
             logger.warning("Nenhum contexto fornecido. Verifique se a lista de answers está vazia.")
             return
 
@@ -31,32 +34,40 @@ class SelectServices:
         type = ConnectionType(connection_type)
 
         if type == ConnectionType.BASIC_CONNECTION:
-            result = BaseConnectionToOpenAI(
-                context=get_context(answers), 
-                question=question, 
-                prompt_type=PromptType(prompt_type)
-            ).connect(api_key=api_key)
+            result = self.base_connect(prompt_type)
 
         elif type == ConnectionType.CONNECTION_WITH_TOOLS:
-            result = ConnectionWithToolsToOpenAI(
-                context=get_context(answers), 
-                question=question, 
-            ).connect(api_key=api_key)
+            result = self.connect_with_tools()
 
         elif type == ConnectionType.CONNECTION_WITH_TOOLS_AND_REACT:
-            result = ConnectionWithReactToOpenAI(
-                context=get_context(answers), 
-                question=question, 
-            ).connect(api_key=api_key)
+            result = self.connect_with_tools_and_react()
 
         logger.info("Finalizado SelectServices")    
 
         return result
-        
 
-def get_context(answers: List[Answer]) -> str:
-    context = ""
-    for ans in answers:
-        context += ans.content + "\n---\n"
+    def base_connect(self, prompt_type: str):
+        return BaseConnectionToOpenAI(
+            context=self.get_context(), 
+            question=self.question, 
+            prompt_type=PromptType(prompt_type)
+        ).connect(api_key=self.api_key)
 
-    return context
+    def connect_with_tools(self):
+        return ConnectionWithToolsToOpenAI(
+            context=self.get_context(), 
+            question=self.question, 
+        ).connect(api_key=self.api_key)
+
+    def connect_with_tools_and_react(self):
+        return ConnectionWithReactToOpenAI(
+            context=self.get_context(), 
+            question=self.question, 
+        ).connect(api_key=self.api_key)
+
+    def get_context(self) -> str:
+        context = ""
+        for ans in self.answers:
+            context += ans.content + "\n---\n"
+
+        return context

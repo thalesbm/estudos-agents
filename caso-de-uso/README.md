@@ -6,7 +6,6 @@
 - [DONE] Utiliza Ragas para avaliar se o RAG realmente responde corretamente (Context Recall, Faithfulness, Answer Relevance)
 - [DONE] Utiliza outros conceitos de prompt Engineering
 - [DONE] ReAct
-- CoT
 - Adicione memoria
 
 #### Comandos:

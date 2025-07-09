@@ -13,6 +13,9 @@ class Prompt:
                 "OBRIGATORIAMENTE chame a função celulares_atualizados(). "
                 "NUNCA tente responder com conhecimento próprio, só use a função celulares_atualizados(). "
                 "Sempre priorize o uso de tools quando disponível. "
+                "Quando usar uma ferramenta (tool), utilize a observação (Observation) para compor a resposta final. "
+                "Se a ferramenta já respondeu à pergunta, escreva 'Final Answer:' seguido da resposta, e NÃO chame mais nenhuma tool. "
+                "Nunca repita chamadas desnecessárias. "
                 "Contexto: {context}\n"
                 "{agent_scratchpad}"
             ),
